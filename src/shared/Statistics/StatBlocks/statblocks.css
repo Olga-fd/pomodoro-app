@@ -1,0 +1,165 @@
+.statHeader {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  height: 70px;
+  align-items: center;
+}
+
+.statHeader h1{
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.statMain {
+  display: grid;
+  grid-template-areas: "day chart"
+                       "pomodoro chart";
+  gap: 32px;
+  grid-auto-flow: column;
+  margin-bottom: 32px;
+}
+.statMain > div {
+  background-color: var(--greyF4);
+}
+
+.statMain__day { 
+  width: 296px;
+  min-height: 260px;
+  grid-area: day;
+  padding: 25px;
+}
+
+.statMain__day h2 {
+  margin-bottom: 14px;
+}
+
+.statMain__day p {
+  line-height: 28px;
+}
+
+.statMain__pomodoro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 296px;
+  min-height: 179px;
+  grid-area: pomodoro;
+}
+
+.tomato {
+  width: 115px;
+  height: 115px;
+}
+
+.statMain__chart {
+  position: relative;
+  width: 952px;
+  min-height: 420px;
+  grid-area: chart;
+}
+
+.statMain__chart_header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 420px;
+  position: relative;
+  background-image: url('./backchart.svg');
+}
+
+/* .statMain__chart_header div{
+  width: 100%;
+  height: 100%;
+} */
+
+.statMain__chart_footer {
+  width: 100%;
+  height: 51px; 
+  background-color: var(--greyEC);
+}
+
+.statMain__chart_footer > span {
+  display: inline-block;
+  font-size: 24px;
+  line-height: 28px;
+  color: var(--grey99);
+  padding: 11px 80px 11px 0;
+  cursor: pointer;
+}
+
+
+.statMain__chart_footer > span:first-child {
+  padding-left: 79px;
+}
+
+.statMain__chart_aside {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 68px 20px 67px 32px; 
+  font-size: .75rem;
+  line-height: 33px;
+}
+
+.statMain__chart_aside > span {
+  margin-bottom: 51px;
+}
+
+.statFooter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.statFooter > div { 
+  position: relative;
+  width: 405px;
+  height: 179px;
+}
+
+.statFooter > div > svg {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+}
+
+.statFooter__focus {
+  background-color: var(--navajoWhite);
+}
+.statFooter__time {
+  background-color: var(--fog);
+}
+.statFooter__pause {
+  background-color: var(--onahau);
+}
+
+.statFooter__title {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.statFooter__span {
+  display: block;
+  font-size: 64px;
+  line-height: 30px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 25px;
+}
+.non-active {
+  background-color: var(--greyF4);
+}
+.non-active svg path {
+  stroke: var(--greyC4)
+}

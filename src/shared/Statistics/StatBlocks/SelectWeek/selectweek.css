@@ -1,0 +1,75 @@
+.select {
+  padding: 19px 15px;
+  border: none;
+  background-color: var(--greyF4);
+}
+
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 380px;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  padding: 1.18rem .9rem;
+  background-color: var(--greyF4);
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: url('../../../../images/arrow-down.svg');
+  top: 1.3rem;
+  right: 2.125rem;
+  width: 0;
+  height: 0;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  content: url('../../../../images/arrow-top.svg');
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: black;
+  cursor: pointer;
+}
+
+.select-items div {
+  padding: 1.17rem 1rem;
+}
+
+.select-items div:not(:last-child) {
+  border-bottom: 1px solid #dedede;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: var(--greyF4);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+  .select-items::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover {
+  background-color: var(--greyE4);
+}

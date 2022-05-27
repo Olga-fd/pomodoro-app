@@ -1,0 +1,185 @@
+@font-face {
+  font-family: 'sf_ui_display';
+  src: url('./fonts/sf_ui_display_bold.woff2') format('woff2'),
+       url('./fonts/sf_ui_display_bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'sf_ui_display';
+  src: url('./fonts/sf_ui_display_regular.woff2') format('woff2'),
+       url('./fonts/sf_ui_display_regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'sf_ui_display';
+  src: url('./fonts/sf-ui-display-thin.woff2') format('woff2'),
+       url('./fonts/sf-ui-display-thin.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'sf_ui_display';
+  src: url('./fonts/sf-ui-display-medium.woff2') format('woff2'),
+       url('./fonts/sf-ui-display-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'sf_ui_display';
+  src: url('./fonts/sf-ui-display-light.woff2') format('woff2'),
+       url('./fonts/sf-ui-display-light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+
+}
+:root {
+  --black:          #333333;
+  --oliveGreen:     #a8b64f;
+  --sycamore:       #899441;
+  --silver:         #c4c4c4;
+  --punch:          #dc3e22;
+  --rust:           #b7280f;
+  --totemPole:      #9F200C;
+  --apricot:        #ea8a79;
+  --burntSienna:    #ee735d;
+  --navajoWhite:    #ffdda9;
+  --fog:            #dfdcfe;
+  --onahau:         #c5f1ff;
+  --whiteLightness: 100%;
+  --white:          hsl(0, 0%, var(--whiteLightness));
+  --greyF4:         hsl(0, 0%, calc(var(--whiteLightness) - 4%));
+  --greyF3:         hsl(0, 0%, calc(var(--whiteLightness) - 5%));
+  --greyF2:         hsl(0, 0%, calc(var(--whiteLightness) - 6%));
+  --greyEC:         hsl(0, 0%, calc(var(--whiteLightness) - 7%));
+  --greyEB:         hsl(0, 0%, calc(var(--whiteLightness) - 10%));
+  --greyE3:         hsl(0, 0%, calc(var(--whiteLightness) - 11%));
+  --greyD9:         hsl(0, 0%, calc(var(--whiteLightness) - 15%));
+  --greyCD:         hsl(0, 0%, calc(var(--whiteLightness) - 20%));
+  --greyC4:         hsl(0, 0%, calc(var(--whiteLightness) - 23%));
+  --grey99:         hsl(0, 0%, calc(var(--whiteLightness) - 40%));
+  --grey66:         hsl(0, 0%, calc(var(--whiteLightness) - 60%));
+}
+
+:hover, button, svg circle {
+  transition: .3s ease-in-out;
+}
+
+* {
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: inherit;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--grayF4);
+  font-size: 16px;
+  font-family: 'sf_ui_display', Arial, sans-serif;
+  font-weight: 400;
+}
+
+ul {
+   margin: 0;
+  /*padding: 0; */
+  /* list-style: none; */
+}
+
+a {
+  text-decoration: none;
+}
+
+img { 
+  max-width: 100%;
+  
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input {
+  width: min-content;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  z-index: 800;
+  width: 100vw;
+  height: 100%;
+}
+
+.flex-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.btn--green, 
+.btn--red {
+  padding: 15px 50px;
+  font-weight: 500;
+}
+
+.btn--green {
+  margin-right: 10px;
+  color: var(--white);
+  background-color: var(--oliveGreen);
+  transition: .3s ease-in-out;
+}
+
+.btn--green:hover {
+  background-color: var(--sycamore);
+}
+
+.btn--red {
+  background-color: var(--rust);
+  color: var(--white);
+}
+
+.btn-red--border {
+  padding: 13px 48px;
+  color: var(--rust);
+  border: 2px solid var(--rust);
+}
+
+.btn-red--border:disabled {
+  border-color: var(--silver);
+}
+
+.btn-red--border:hover {
+  color: white;
+  border-color: var(--punch);
+  background-color: var(--punch);
+}

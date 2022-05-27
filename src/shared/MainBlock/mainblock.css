@@ -1,0 +1,50 @@
+.mainblock {
+  display: flex;
+  height: 100vh;
+}
+
+.paragraph {
+  margin: 0;
+  padding-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.listInstr {
+  padding-left: 12px;
+  list-style: disc;
+}
+
+.listInstr li {
+  line-height: 33px;
+}
+
+.listInstr li::marker {
+  margin-right: 25px;
+  color: var(--rust);
+  font-size: 0.7rem;
+}
+
+.input-add {
+  width: 370px;
+  height: 55px;
+  padding-left: 15px;
+  font-weight: 300;
+  color: var(--grey99);
+  background-color: var(--greyF4);
+  border: none;
+}
+
+.btn-add {
+  display: block;
+}
+
+.listInstr, .input-add, .btn-add {
+  margin-bottom: 25px;
+}
+
+.hours {
+  margin-top: 19px;
+  color: var(--grey99);
+}

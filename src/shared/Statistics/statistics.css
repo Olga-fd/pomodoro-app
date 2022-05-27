@@ -1,0 +1,23 @@
+.equalizer {
+  padding-left: 9px;
+  font-size: 1rem;
+  color: var(--punch);
+}
+
+.btn-stat:hover .equalizer {
+  color: var(--rust);
+}
+
+.btn-stat svg path {
+  fill: var(--punch);
+}
+
+.btn-stat:hover svg path {
+  fill: var(--rust);
+}
+
+@media all and (max-width: 600px) {
+  .equalizer {
+    display: none;;
+  }
+}

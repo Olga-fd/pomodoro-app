@@ -1,0 +1,49 @@
+.initial {
+  position: absolute;
+  bottom: 0;
+  z-index: 1999;
+  -webkit-transition: height 2s;
+  -moz-transition:    height 0.5s;
+  -ms-transition:     height 0.5s;
+  -o-transition:      height 0.5s;
+  transition:         height 2s;
+  
+  background-color: var(--greyC4);
+  width: 77px;
+  display: inline-block;
+}
+
+.initial:first-child {
+  left: 56px;
+}
+
+.initial:nth-child(2) {
+  left: 165px;
+}
+
+.initial:nth-child(3) {
+  left: 274px;
+}
+
+.initial:nth-child(4) {
+  left: 383px;
+}
+
+.initial:nth-child(5) {
+  left: 492px;
+}
+
+.initial:nth-child(6) {
+  left: 601px;
+}
+
+.initial:last-child {
+  left: 710px;
+}
+.colored {
+  background-color: var(--apricot);
+}
+
+.colored-rust {
+  background-color: var(--rust);
+}

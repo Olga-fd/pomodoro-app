@@ -1,0 +1,98 @@
+.timer {
+  width: 119%;
+  max-height: 32rem;
+  background-color: var(--greyF4);
+  overflow-y: hidden;
+}
+
+.timer-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 19px 40px;
+  background-color: var(--silver);
+}
+
+.timer-header span:first-child {
+  font-weight: 700;
+}
+
+.timer-header span:last-child {
+  color: var(--white);
+}
+
+.timer-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 90%;
+}
+
+.btn-plus {
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  margin-left: 25px;
+  cursor: pointer;
+  /* background-image: url('./plus.svg'); */
+}
+
+.countdown { 
+  display: flex;
+  align-items: center;
+  padding-left: 10%;
+}
+
+/* .countdown svg {
+  margin-left: 25px;
+} */
+
+.countdown svg:hover circle {
+  fill: var(--sycamore);
+  cursor: pointer;
+}
+
+.timer-main {
+  margin-bottom: 32px;
+}
+
+.timer-main span:first-child {
+  color: var(--grey99);
+}
+
+.display {
+  display: inline-block;
+  font-size: 150px;
+  font-weight: 200;
+  line-height: 150px;
+  transition: .3s ease-in-out;
+  color: inherit;
+}
+
+.started {
+  background-color: var(--punch);
+  transition: .3s ease-in-out;
+}  
+
+.started span,
+.break span {
+  color: var(--white);
+}
+
+.timer--red {
+  color: var(--punch);
+  transition: .3s ease-in-out;
+}
+
+.timer--darkRed {
+  color: var(--totemPole);
+}
+
+.break {
+  background-color: var(--oliveGreen);
+}
+
+.break--text {
+  color: var(--oliveGreen);
+}
