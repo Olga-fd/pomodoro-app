@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Header } from './shared/Header/Header';
 import { Layout } from './shared/Layout/Layout';
 import { MainBlock } from './shared/MainBlock/MainBlock';
 import { Shadow } from './shared/Shadow/Shadow';
 import { StatBlocks }from './shared/Statistics/StatBlocks/StatBlocks';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-function AppComponent() {
+export function App() {
   const data = [{
     0: {
       'Пн': {
@@ -46,4 +46,3 @@ localStorage.setItem('data', JSON.stringify(data))
   );
 }
 
-export const App = hot(() => <AppComponent/>);

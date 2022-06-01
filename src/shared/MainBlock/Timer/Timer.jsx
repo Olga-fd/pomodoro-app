@@ -35,29 +35,29 @@ export function Timer() {
     if (isStopPressed) setIsStartPressed(false)
   }, [isStopPressed])
 
-  useEffect(() => { 
-    const display = document.querySelector('.display');
-    let total = display.innerText.split(":");
-    total = parseInt(total[0] * 60) + parseInt(total[1]);
-    let arr = [];
-    let week = {};
+  // useEffect(() => { 
+  //   const display = document.querySelector('.display');
+  //   let total = display.innerText.split(":");
+  //   total = parseInt(total[0] * 60) + parseInt(total[1]);
+  //   let arr = [];
+  //   let week = {};
     
-    if (day === new Date().getDay()) {
-      let obj = {};
-      obj[day] = {};
-      obj[day].time = total;
-      obj[day].tomato = 0;
-      obj[day].pause = 0;
-      obj[day].stop = 0;
-      let base = JSON.parse(localStorage.getItem('base'));
-      if (base && base.find((item) => Object.keys(item) == result)) {
-        return;
-      }
-      week[result] = obj;
-      arr.push(week);
-      localStorage.setItem('base', JSON.stringify(arr));
-    }
-  }, [day, result])
+  //   if (day === new Date().getDay()) {
+  //     let obj = {};
+  //     obj[day] = {};
+  //     obj[day].time = total;
+  //     obj[day].tomato = 0;
+  //     obj[day].pause = 0;
+  //     obj[day].stop = 0;
+  //     let base = JSON.parse(localStorage.getItem('base'));
+  //     if (base && base.find((item) => Object.keys(item) == result)) {
+  //       return;
+  //     }
+  //     week[result] = obj;
+  //     arr.push(week);
+  //     localStorage.setItem('base', JSON.stringify(arr));
+  //   }
+  // }, [day, result])
 
   function addZero (num) {
     if (num <= 9) {
