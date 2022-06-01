@@ -19,7 +19,11 @@ const plugins = [
 module.exports = {
   mode,
   plugins, // Сокращенная запись plugins: plugins в ES6+
-  entry: './src/index.js',
+  entry: './src/index.jsx',
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '.css'],
+    modules: ['src', 'node_modules']
+  },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),

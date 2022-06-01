@@ -1,4 +1,3 @@
-import { CLIEngine } from 'eslint';
 import React, {useEffect, useState} from 'react';
 import { Button } from './Button/Button';
 // import { getDayOfWeek } from '../../Statistics/StatBlocks/StatBlocks';
@@ -13,13 +12,13 @@ export function Timer() {
   const [isBreak, setBreak] = useState(false);
   const [numOfWeek, setNumOfWeek] = useState(0);
   const display = document.querySelector('.display');
-  
+
   let date = new Date();
   let day = date.getDay();
   let firstJan = new Date(date.getFullYear(),0,1);
   let numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
   let result = Math.ceil((day + 1 + numberOfDays) / 7);
-  
+
   // useEffect(() => {
   //   //let pauseTimer;
   //   let counter = 0;
@@ -35,13 +34,13 @@ export function Timer() {
     if (isStopPressed) setIsStartPressed(false)
   }, [isStopPressed])
 
-  // useEffect(() => { 
+  // useEffect(() => {
   //   const display = document.querySelector('.display');
   //   let total = display.innerText.split(":");
   //   total = parseInt(total[0] * 60) + parseInt(total[1]);
   //   let arr = [];
   //   let week = {};
-    
+
   //   if (day === new Date().getDay()) {
   //     let obj = {};
   //     obj[day] = {};
@@ -66,7 +65,7 @@ export function Timer() {
       return num;
     }
   };
-  
+
   function reset() {
     document.querySelector('.display').textContent = '25:00';
   }
@@ -101,21 +100,21 @@ export function Timer() {
         setTimeout(() => {
           stopTimer();
         }, 3000)
-      } else { 
+      } else {
         display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
-      --timeMinute; 
+      --timeMinute;
     }, 1000)
   }
 
   return (
     <div className="timer">
-      <p className={`timer-header ${isStartPressed 
-                      ? "started" 
-                      : isBreak 
-                        ? "break" 
-                        : isPausePressed 
-                          ? "started" 
+      <p className={`timer-header ${isStartPressed
+                      ? "started"
+                      : isBreak
+                        ? "break"
+                        : isPausePressed
+                          ? "started"
                           : ""}
       `}>
         <span>Задача</span>
@@ -125,13 +124,13 @@ export function Timer() {
         <div className="countdown">
           <p className={`display ${(isBreak && isPausePressed)
                           ? "display"
-                          : isBreak 
-                            ? "break--text display" 
+                          : isBreak
+                            ? "break--text display"
                             : isStartPressed
-                              ? "timer--red display" 
+                              ? "timer--red display"
                               : ""}
           `}>
-            {isStopPressed 
+            {isStopPressed
               ? "25:00"
               : isBreak ? "05:00" : "25:00"
             }
@@ -150,8 +149,8 @@ export function Timer() {
         <div className="timer-btns">
 
           {!isStartPressed && !isPausePressed && !isBreak && (
-            <Button className="btn--green" 
-                    title='Старт' 
+            <Button className="btn--green"
+                    title='Старт'
                     onClick={() => {
                       setTimer();
                       setIsStartPressed(true);
@@ -160,59 +159,59 @@ export function Timer() {
           )}
 
           {isStartPressed && (
-            <Button className="btn--green" 
-                    title='Пауза' 
+            <Button className="btn--green"
+                    title='Пауза'
                     onClick={() => {
                       setIsPausePressed(true);
                       setIsStartPressed(false);
                       clearInterval(timer);
-                    }} 
+                    }}
             />
           )}
 
           {isBreak && !isPausePressed && (
-            <Button className="btn--green" 
-                    title='Пауза' 
+            <Button className="btn--green"
+                    title='Пауза'
                     onClick={() => {
                       setIsPausePressed(true);
                       clearInterval(timer);
-                    }} 
+                    }}
             />
           )}
 
           {!isPausePressed && !isBreak && (
-            <Button className="btn-red--border" 
-                    title='Стоп' 
+            <Button className="btn-red--border"
+                    title='Стоп'
                     onClick={() => {stopTimer()}}
             />
           )}
-          
+
           {isPausePressed && !isStartPressed && (
-            <Button className="btn--green" 
-                    title='Продолжить' 
+            <Button className="btn--green"
+                    title='Продолжить'
                     onClick={() => {
                       let total = display.innerText.split(":");
                       total = parseInt(total[0] * 60) + parseInt(total[1]);
                       {!isBreak && (
                         setIsStartPressed(true)
-                      )}              
+                      )}
                       setIsPausePressed(false);
                       setTimer(total);
-                    }} 
+                    }}
             />
           )}
 
           {isBreak &&(
-            <Button className="btn-red--border" 
+            <Button className="btn-red--border"
                     title='Пропустить'
                     onClick={() => {stopTimer()}}
             />
           )}
 
           {isPausePressed && !isBreak && (
-            <Button className="btn--red" 
-                    title='Сделано' 
-                    onClick={() => {stopTimer()}} 
+            <Button className="btn--red"
+                    title='Сделано'
+                    onClick={() => {stopTimer()}}
             />
           )}
         </div>

@@ -3,7 +3,7 @@ import { Header } from './shared/Header/Header';
 import { Layout } from './shared/Layout/Layout';
 import { MainBlock } from './shared/MainBlock/MainBlock';
 import { Shadow } from './shared/Shadow/Shadow';
-import { StatBlocks }from './shared/Statistics/StatBlocks/StatBlocks';
+import { StatBlocks } from './shared/Statistics/StatBlocks/StatBlocks';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 export function App() {
@@ -45,4 +45,5 @@ localStorage.setItem('data', JSON.stringify(data))
     </BrowserRouter>
   );
 }
+
 
