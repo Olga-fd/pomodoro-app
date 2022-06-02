@@ -6,11 +6,14 @@ import { Chart } from "./Chart/Chart";
 import { CirclesIcon } from "../../Icons/CirclesIcon";
 import { StopIcon } from "../../Icons/StopIcon";
 import { WatchIcon } from "../../Icons/WatchIcon";
+import { useStore } from "react-redux";
 
 export function StatBlocks() {
   const [isDayOfWeek, setIsDayOfWeek] = useState('Понедельник');
   //const [isRust, setIsRust] = useState(false);
-      
+  const store = useStore();
+  const data = store.getState().data;
+
   function getDayOfWeek(e) {
     //const date = new Date();
     const date = e.target.dataset.id;
@@ -52,7 +55,7 @@ export function StatBlocks() {
       <div className="statMain">
         <div className="statMain__day">
           <h2>{isDayOfWeek}</h2>
-          <p>Вы&nbsp;работали над задачами в&nbsp;течение 51&nbsp;минуты</p>
+          <p>Вы&nbsp;работали над задачами в&nbsp;течение {data[0][0]['Пн'].time}&nbsp;минуты</p>
         </div>
         <div className="statMain__pomodoro">
           <img className="tomato" src={pomodoro} alt='Помидор' />
@@ -77,16 +80,20 @@ export function StatBlocks() {
         <div className="statFooter__focus non-active">
           <div className="wrap">
             <p className="statFooter__title">Фокус</p>
-            <span className="statFooter__span">0%</span>
+            <span className="statFooter__span">
+              {data ? `${data[0][0]['Пн'].focus}` : '0%'}
+            </span>
           </div>
           
           <CirclesIcon/>
         </div>
         
-        <div className="statFooter__time non-active">
+        <div className="statFooter__time">
           <div className="wrap">
             <p className="statFooter__title">Время на паузе</p>
-            <span className="statFooter__span">0м</span>
+            <span className="statFooter__span">
+              {data ? `${data[0][0]['Пн'].pause}м` : '0м'}
+            </span>
           </div>
        
           <WatchIcon/>
@@ -95,7 +102,9 @@ export function StatBlocks() {
         <div className="statFooter__pause non-active">
           <div className="wrap">
             <p className="statFooter__title">Остановки</p>
-            <span className="statFooter__span">0</span>
+            <span className="statFooter__span">
+              {data ? data[0][0]['Пн'].stops : 0}
+            </span>
           </div>
           
           <StopIcon/>

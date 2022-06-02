@@ -5,9 +5,12 @@ import { MainBlock } from './shared/MainBlock/MainBlock';
 import { Shadow } from './shared/Shadow/Shadow';
 import { StatBlocks } from './shared/Statistics/StatBlocks/StatBlocks';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { createStore } from 'redux';
+import {Provider} from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-export function App() {
-  const data = [{
+const initialState = {
+  data: [{
     0: {
       'Пн': {
         time: 200,
@@ -24,25 +27,32 @@ export function App() {
         stops: 0,
       },
     }
-  }
-]
-localStorage.setItem('data', JSON.stringify(data))
+  }]  
+}
 
+function rootReducer(state = initialState, action) {
+  return state;
+}
+const store = createStore(rootReducer, composeWithDevTools());
+
+export function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Header/>
-      </Layout>
-      <Shadow/>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/index" />} />
-          <Route path="/index" element={<MainBlock/>} />
-          <Route path="/statistics" element={<StatBlocks/>} />
-          <Route path="*" element={ <Navigate to="/error" />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Layout>
+          <Header/>
+        </Layout>
+        <Shadow/>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Navigate replace to="/index" />} />
+            <Route path="/index" element={<MainBlock/>} />
+            <Route path="/statistics" element={<StatBlocks/>} />
+            <Route path="*" element={ <Navigate to="/error" />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
