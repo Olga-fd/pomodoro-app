@@ -40,10 +40,19 @@
 .initial:last-child {
   left: 710px;
 }
+
+.initial:not(.colored-punch):hover {
+  background-color: var(--burntSienna);
+}
+
 .colored {
   background-color: var(--apricot);
 }
 
-.colored-rust {
-  background-color: var(--rust);
+.text-punch {
+  color: var(--punch) !important;
+}
+
+.colored-punch {
+  background-color: var(--punch);
 }

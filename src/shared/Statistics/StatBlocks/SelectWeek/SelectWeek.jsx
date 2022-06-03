@@ -32,13 +32,13 @@ export function SelectWeek() {
         {selectSelected}
       </div>
       <div className={`select-items ${isSelected ? "" : "select-hide"}`}>
-        <div onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
+        <div data-week="0" onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
           Эта неделя
         </div>
-        <div onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
+        <div data-week="1" onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
           Прошедшая неделя
         </div>
-        <div onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
+        <div data-week="2" onClick={(e) => {setSelectSelected(e.target.innerHTML); handleClick()}}>
           2 недели назад
         </div>
       </div>
