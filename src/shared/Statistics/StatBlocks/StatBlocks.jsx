@@ -7,15 +7,16 @@ import { Chart } from "./Chart/Chart";
 import { CirclesIcon } from "../../Icons/CirclesIcon";
 import { StopIcon } from "../../Icons/StopIcon";
 import { WatchIcon } from "../../Icons/WatchIcon";
-import { useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 
 export function StatBlocks() {
   const [isDayOfWeek, setIsDayOfWeek] = useState('Понедельник');
   const [isTomato, setIsTomato] = useState(false);
   const [week, setWeek] = useState(0);
 
-  const store = useStore();
-  const data = store.getState().data;
+  // const store = useStore();
+  // const data = store.getState().data;
+  const data = useSelector(state => state.statData);
   const selected = document.querySelectorAll('.select-hide');
   
   useEffect(() => {
@@ -41,7 +42,7 @@ export function StatBlocks() {
     }
   }
 
-  function getData(e) {
+  function getStatData(e) {
     const divs = document.querySelectorAll('.statFooter div');
     divs.forEach(div => div.classList.remove('non-active'));
     setIsTomato(true)
@@ -139,7 +140,7 @@ export function StatBlocks() {
           <div className="statMain__chart_footer" onClick={(e) => {
             getDayOfWeek(e); 
             changeColor(e);
-            getData(e);
+            getStatData(e);
           }}>
             {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((day, index) =>
               <span data-id={index + 1}>{day}</span> 

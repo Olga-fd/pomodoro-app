@@ -1,13 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
-import { useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import './chart.css';
 //style={"display: block; box-sizing: border-box; height: 279.489px; width: 562.842px;"}
 
 export function Chart() {
   const [heights, setHeights] = useState(['5', '5', '5', '5', '5', '5', '5']);
   //let data = JSON.parse(localStorage.getItem('data'));
-  const store = useStore();
-  const data = store.getState().data;
+  const data = useSelector(state => state.statData);
   localStorage.setItem('data', JSON.stringify(data))
 
   function getTransformedArray(array) {

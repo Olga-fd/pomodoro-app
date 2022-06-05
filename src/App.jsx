@@ -8,31 +8,8 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { createStore } from 'redux';
 import {Provider} from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { rootReducer } from './store/store';
 
-const initialState = {
-  data: [{
-    0: {
-      'Пн': {
-        time: 200,
-        tomato: 2,
-        focus: '40%',
-        pause: 150,
-        stops: 3,
-      },
-      'Вт': {
-        time: 50,
-        tomato: 2,
-        focus: '100%',
-        pause: 0,
-        stops: 0,
-      },
-    }
-  }]  
-}
-
-function rootReducer(state = initialState, action) {
-  return state;
-}
 const store = createStore(rootReducer, composeWithDevTools());
 
 export function App() {

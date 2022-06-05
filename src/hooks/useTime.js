@@ -1,13 +1,14 @@
 import React, {useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export function useTime() {
   let data;
   const [hours, setHours] = useState('');
-
+  const toDoList = useSelector(state => state.toDoList);
   if (localStorage.getItem('toDoList') !== null) {
     data = JSON.parse( localStorage.toDoList );
   } else {
-    data = [];
+    data = toDoList;
   }
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export function useTime() {
         }
       }
     }
-  }, [data])
+  }, [data, toDoList])
 
   return [hours];
 }

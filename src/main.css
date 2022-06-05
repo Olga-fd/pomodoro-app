@@ -70,7 +70,7 @@
   --grey66:         hsl(0, 0%, calc(var(--whiteLightness) - 60%));
 }
 
-:hover, button, svg circle {
+:hover, button, svg circle, div {
   transition: .3s ease-in-out;
 }
 

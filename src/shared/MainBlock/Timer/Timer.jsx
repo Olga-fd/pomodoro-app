@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from './Button/Button';
 // import { getDayOfWeek } from '../../Statistics/StatBlocks/StatBlocks';
 import './timer.css';
@@ -19,6 +20,8 @@ export function Timer() {
   let numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
   let result = Math.ceil((day + 1 + numberOfDays) / 7);
 
+  const data = useSelector(state => state.statData);
+  const dispatch = useDispatch();
   // useEffect(() => {
   //   //let pauseTimer;
   //   let counter = 0;
@@ -55,6 +58,7 @@ export function Timer() {
   //     week[result] = obj;
   //     arr.push(week);
   //     localStorage.setItem('base', JSON.stringify(arr));
+
   //   }
   // }, [day, result])
 

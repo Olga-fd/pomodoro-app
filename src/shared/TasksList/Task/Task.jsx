@@ -15,13 +15,13 @@ export function Task({task}) {
   }, [taskTitle])
 
   return (
-    <tr className="taskItem" data-id={`${task.id}`} onClick={(e) => {
-      document.querySelector('.timer-header span:first-child').textContent = e.target.closest('.taskItem_input').value;
-      document.querySelector('.timer-main span:last-child').textContent = e.target.closest('.taskItem_input').value;
-      document.querySelector('.timer-main span:first-child').textContent = `Задача ${e.target.dataset.id} - `
-    }}>
+    <tr className="taskItem" data-id={`${task.id}`}>
       <td> <span className="quantity">{task.quantity}</span></td>
-      <td className="taskItem_title">
+      <td className="taskItem_title" onClick={(e) => {
+        document.querySelector('.timer-header span:first-child').textContent = e.target.closest('.taskItem_input').value;
+        document.querySelector('.timer-main span:last-child').textContent = e.target.closest('.taskItem_input').value;
+        document.querySelector('.timer-main span:first-child').textContent = `Задача ${e.target.dataset.id} - `
+      }}>
         <input className="taskItem_input" data-id={`${task.id}`} value={taskTitle} 
             onChange={(e) => {
               setTaskTitle(e.target.value);
