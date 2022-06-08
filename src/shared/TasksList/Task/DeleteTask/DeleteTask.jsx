@@ -1,66 +1,75 @@
 import React, {useEffect, useState} from 'react';
 import { CrossIcon } from '../../../Icons/CrossIcon';
-import { useTime } from '../../../../hooks/useTime';
+import { useDispatch, useSelector } from "react-redux";
+import { updateStatusModal } from '../../../../store/store';
 import './deletetask.css';
 
 export function DeleteTask() {
-  let arr = JSON.parse( localStorage.toDoList );
-  const [tr, setTr] = useState(document.querySelectorAll('tr'));
-  useEffect(() => {setTr(document.querySelectorAll('tr'))}, [arr.length]);
-  const [hours] = useTime();
-  
+  const toDoList = useSelector(state => state.toDoList);
+  const dispatch = useDispatch();
+
   const node = document.querySelector('#modal_root');
   if (!node) return null;
     
-  function changeId(count = 1) {
-    arr.map((item) => {
-      item.id = count++;
+  function changeId() {
+    for (let i = 0; i < toDoList.length; i++) {
+      toDoList[i].id = i + 1;
+    }
+    dispatch({
+      type: 'CHANGE_ID',
+      toDoList: toDoList
+    })
+  }
+  function changeDataId() {
+    const rows = document.querySelectorAll('tr');
+    rows.forEach((row, index) => {
+      row.setAttribute("data-id", `${index + 1}`);
     })
   }
 
   function closeModal() {
-    localStorage.setItem('isModalOpened', false);
-    document.querySelector('#modal_root').classList.remove('modal');
-    document.querySelector('.backColor').remove();
+    dispatch(updateStatusModal(false));
   }
 
   function deleteRow() {
-    let indexLS = JSON.parse(localStorage.index);
-    arr.splice(indexLS, 1);
-    changeId();
-    localStorage.setItem('toDoList', JSON.stringify(arr));
-    localStorage.removeItem('index');
-    
-    tr[indexLS].remove();
-    document.querySelector('.hours').textContent = hours;
-    closeModal();        
-    changeDataId()
+    let index = JSON.parse(localStorage.index);
+    dispatch({
+      type: 'DELETE_TASK', 
+      id: index, 
+    });
+    closeModal();     
+    setTimeout(() => {
+      changeDataId();
+    }, 3000)   
   }
 
-  function changeDataId() {
-    const rows = document.querySelectorAll('tr');
-    rows.forEach((row, index) => {
-    row.setAttribute("data-id", `${index + 1}`);
-    })
-  }
+  useEffect(() => {
+    changeId();
+  }, [toDoList.length])
 
   return (
     <div className="del">
       <p className="question">Удалить задачу?</p>
-      <button className="closeBtn" onClick={() => {
-        closeModal()
-      }}>
+      <button className="closeBtn" onClick={() => {closeModal()}}>
         <CrossIcon/>
       </button>
 
       <button className="delBtn" onClick={() => {
           deleteRow();
+          // let index = JSON.parse(localStorage.index);
+          // dispatch({
+          //   type: 'DELETE_TASK', 
+          //   id: index, 
+          // });
+          // closeModal();  
+          // changeDataId();
+          // changeId();
         }
       }>
         Удалить
       </button>
 
-      <button className="cancelBtn">Отмена</button>
+      <button className="cancelBtn" onClick={() => {closeModal()}}>Отмена</button>
     </div>    
   );
 }

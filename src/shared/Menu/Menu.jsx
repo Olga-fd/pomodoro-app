@@ -13,11 +13,13 @@ export function Menu() {
     <div className="menu">
       <DropDown 
         button={ 
-          <button className="menuButton" onClick={() => {setIsDropOpened(true)}} ref={ref}>
+          <button className="menuButton" 
+                  onClick={() => {setIsDropOpened(true)}} 
+                  ref={ref}
+          >
             <MenuIcon/>
           </button> 
         } 
-        isOpen='false'
       >
       {isDropOpened && (
           <MenuListBtn rect={rect}/>

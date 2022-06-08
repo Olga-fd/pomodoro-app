@@ -1,4 +1,5 @@
 const initialState = {
+  isModalOpened: false,
   toDoList: [],
   statData: [{
     0: {
@@ -22,6 +23,15 @@ const initialState = {
 
 const CREATE_TASK = 'CREATE_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
+const DELETE_TASK = 'DELETE_TASK';
+const UPDATE_STATUS = 'UPDATE_STATUS';
+const CHANGE_ID = 'CHANGE_ID';
+
+export const updateStatusModal = (status) => ({ 
+    type: UPDATE_STATUS, 
+    status,
+  }
+)
 
 export function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -39,14 +49,33 @@ export function rootReducer(state = initialState, action) {
       return {
         ...state,
         toDoList: state.toDoList.map(
-          item => item.id === action.payload
+          item => item.id === action.id
             ? {
               ...item,
-              title: action.title
+              title: action.title,
+              quantity: action.quantity,
+              time: action.time,
             }
             : item
         ),
       };
+    case DELETE_TASK:
+      return {
+        ...state,
+        toDoList: state.toDoList.filter(
+          item => item.id !== action.id
+        )
+      };
+    case UPDATE_STATUS: 
+      return {
+        ...state,
+        isModalOpened: action.status,
+      };
+    case CHANGE_ID:
+      return {
+        ...state,
+        toDoList: action.toDoList
+      }
     default:
       return state; 
   };

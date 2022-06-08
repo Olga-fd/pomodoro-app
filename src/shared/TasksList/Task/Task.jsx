@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Menu } from '../../Menu/Menu';
 import './task.css';
 
 export function Task({task}) {
   const [taskTitle, setTaskTitle] = useState(`${task.title}`);
-   // const [isDisabled, setIsDisabled] = useState(false);
-
-  // const handleClick = () => {
-  //   setIsDisabled(!isDisabled)
-  // };
-
-  useEffect(() => {
-    setTaskTitle()
-  }, [taskTitle])
-
+  const dispatch = useDispatch();
+  
   return (
     <tr className="taskItem" data-id={`${task.id}`}>
       <td> <span className="quantity">{task.quantity}</span></td>
@@ -29,11 +22,13 @@ export function Task({task}) {
             }
           } 
           onBlur={(e) => {
-              let index = e.target.dataset.id;
-              let arr = JSON.parse(localStorage.getItem("toDoList"));
-              let indexLS = arr.findIndex(key => key.id === parseInt(index)); 
-              arr[indexLS].title = e.target.value;
-              localStorage.setItem('toDoList', JSON.stringify(arr));
+              let index = parseInt(e.target.dataset.id);
+              dispatch({
+                type: 'UPDATE_TASK', 
+                id: index, 
+                title: e.target.value, 
+              });
+              e.target.setAttribute('disabled', 'disabled');
             }
           } disabled />  
       </td>
