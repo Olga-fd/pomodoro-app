@@ -1,16 +1,21 @@
 import React, {useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import './selectweek.css';
 
 export function SelectWeek() {
   const [isSelected, setIsSelected] = useState(false);
-  const [selectSelected, setSelectSelected] = useState("Эта неделя")
-  
+  const [selectSelected, setSelectSelected] = useState("Эта неделя");
+  const dispatch = useDispatch();
   useEffect(() => setIsSelected(isSelected), [isSelected]);
 
   useEffect(() => {
     const divOptions = Array.from(document.querySelectorAll('.select-items div'));
     let found = divOptions.find(div => div.innerText === selectSelected);
     found.classList.add('select-hide');
+    dispatch({
+      type: 'SET_WEEK',
+      week: found.dataset.week,
+    })
     let filtered = divOptions.filter(div => div.innerText !== selectSelected);
     filtered.forEach(div => div.classList.remove('select-hide'));
   }, [selectSelected]);

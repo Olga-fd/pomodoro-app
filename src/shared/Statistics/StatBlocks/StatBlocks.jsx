@@ -7,21 +7,41 @@ import { Chart } from "./Chart/Chart";
 import { CirclesIcon } from "../../Icons/CirclesIcon";
 import { StopIcon } from "../../Icons/StopIcon";
 import { WatchIcon } from "../../Icons/WatchIcon";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export function StatBlocks() {
   const [isDayOfWeek, setIsDayOfWeek] = useState('Понедельник');
   const [isTomato, setIsTomato] = useState(false);
   const [week, setWeek] = useState(0);
+  const dayOfWeek = useSelector(state => state.selectedDay);
+  const [selectedDay, setSelectedDay] = useState('Пн');
+  const dispatch = useDispatch();
 
   // const store = useStore();
-  // const data = store.getState().data;
-  const data = useSelector(state => state.statData);
+  // const data = store.getState().data; 
+  const base = useSelector(state => state.selectedWeek);
+  let dataForStat = useSelector(state => state.statData);
   const selected = document.querySelectorAll('.select-hide');
   
+  let data;
+  if (dataForStat.length == 0) {
+    data = JSON.parse(localStorage.stat);
+    dispatch({
+      type: 'SET_INIT',
+      base: data
+    })
+    //localStorage.clear()
+  } else {
+    data = dataForStat;
+  }
+    
   useEffect(() => {
-    setWeek(1);
+    setWeek(base);
   }, [selected])
+
+  useEffect(() => {
+    setSelectedDay(dayOfWeek)
+  }, [dayOfWeek])
   
   function getDayOfWeek(e) {
     //const date = new Date();
@@ -40,6 +60,10 @@ export function StatBlocks() {
     } else {
       setIsDayOfWeek(days[date]);
     }
+    dispatch({
+      type: 'GET_DAY',
+      day: e.target.innerText,
+    })
   }
 
   function getStatData(e) {
@@ -68,7 +92,7 @@ export function StatBlocks() {
     e.target.classList.add('text-punch');
   }
 
- function getTime(length) {
+  function getTime(length) {
     let hour, minutes;
     if (length > 0) {
       hour = Math.floor(length / 60);
@@ -83,8 +107,16 @@ export function StatBlocks() {
         } else {
           return (`${minutes} минут`)
         }
+      } else {
+        if (hour >= 5) {
+          return (`${hour} часов`)
+        } else if (hour >= 2) {
+          return (`${hour} часа`)
+        } else if (hour == 1 ) {
+          return (`${hour} час`)
       }
-    }
+      }
+   }
   }
 
   function getTimeShort(length) {
@@ -102,7 +134,21 @@ export function StatBlocks() {
         } else {
           return (`${minutes}м`)
         }
-      }
+      } 
+    } else {
+      return 0
+    }
+  }
+
+  function conjugateTomato(quantity) {
+    if (quantity == 0) {
+      return (`Нет помидоров`)
+    } else if (quantity == 1) {
+      return (`${quantity} помидор`)
+    } else if (quantity <= 4) {
+      return (`${quantity} помидора`)
+    } else if (quantity > 4) {
+      return (`${quantity} помидоров`)
     }
   }
 
@@ -117,7 +163,7 @@ export function StatBlocks() {
         <div className="statMain__day">
           <h2>{isDayOfWeek}</h2>
           <p>Вы&nbsp;работали над задачами в&nbsp;течение 
-            <span className="statMain__day_span"> {getTime(data[0][0]['Пн'].time)}</span>
+            {/* <span className="statMain__day_span"> {getTime(data[week][selectedDay].time)}</span> */}
           </p>
         </div>
         <div className="statMain__pomodoro">
@@ -125,9 +171,9 @@ export function StatBlocks() {
             ? <div className="statMain__pomodoro_wrap">
                 <div className="statMain__pomodoro_header">
                   <img className="statMain__pomodoro_img" src={tomato} alt='Помидор' />
-                  <span className="statMain__pomodoro_span">х 2</span>
+                  {/* <span className="statMain__pomodoro_span">х {data[week][selectedDay].tomato}</span> */}
                 </div>
-                <div className="statMain__pomodoro_footer">2 помидора</div>
+                {/* <div className="statMain__pomodoro_footer">{conjugateTomato(data[week][selectedDay].tomato)}</div> */}
               </div>
             : <img className="tomato" src={pomodoro} alt='Помидор' />
           }
@@ -154,7 +200,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Фокус</p>
             <span className="statFooter__span">
-              {data ? `${data[0][0]['Пн'].focus}` : '0%'}
+              {/* {data ? `${data[week][selectedDay].focus}%` : '0%'} */}
             </span>
           </div>
           
@@ -165,7 +211,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Время на паузе</p>
             <span className="statFooter__span">
-              {data ? `${getTimeShort(data[0][0]['Пн'].pause)}` : '0м'}
+              {/* {data ? `${getTimeShort(data[week][selectedDay].pause)}` : '0м'} */}
             </span>
           </div>
        
@@ -176,7 +222,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Остановки</p>
             <span className="statFooter__span">
-              {data ? data[0][0]['Пн'].stops : 0}
+              {/* {data ? data[week][selectedDay].stops : 0} */}
             </span>
           </div>
           

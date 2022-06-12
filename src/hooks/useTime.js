@@ -2,15 +2,9 @@ import React, {useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export function useTime() {
-  let data;
   const [hours, setHours] = useState('');
   const toDoList = useSelector(state => state.toDoList);
-  if (localStorage.getItem('toDoList') !== null) {
-    data = JSON.parse( localStorage.toDoList );
-  } else {
-    data = toDoList;
-  }
-
+ 
   useEffect(() => {
     let hour, minutes;
     const length = toDoList.map(item => item.time).reduce((sum, current) => sum + current, 0);
@@ -28,6 +22,8 @@ export function useTime() {
           setHours(`${minutes} минут`)
         }
       }
+    } else {
+      setHours('')
     }
   }, [toDoList])
 

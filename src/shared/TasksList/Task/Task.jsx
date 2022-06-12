@@ -24,7 +24,7 @@ export function Task({task}) {
           onBlur={(e) => {
               let index = parseInt(e.target.dataset.id);
               dispatch({
-                type: 'UPDATE_TASK', 
+                type: 'UPDATE_TITLE', 
                 id: index, 
                 title: e.target.value, 
               });

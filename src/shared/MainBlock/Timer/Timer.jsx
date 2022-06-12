@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { saveNumberOfWeek } from '../../../store/store';
 import { Button } from './Button/Button';
-// import { getDayOfWeek } from '../../Statistics/StatBlocks/StatBlocks';
 import './timer.css';
 
 let timer;
@@ -11,8 +11,9 @@ export function Timer() {
   const [isPausePressed, setIsPausePressed] = useState(false);
   const [isStopPressed, setIsStopPressed] = useState(false);
   const [isBreak, setBreak] = useState(false);
-  const [numOfWeek, setNumOfWeek] = useState(0);
+  const [nameDay, setNameDay] = useState('');
   const display = document.querySelector('.display');
+  const numberOfWeek = useSelector(state => state.numberOfWeek);
 
   let date = new Date();
   let day = date.getDay();
@@ -22,45 +23,50 @@ export function Timer() {
 
   const data = useSelector(state => state.statData);
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   //let pauseTimer;
-  //   let counter = 0;
-  //   if (isPausePressed) {
-  //     pauseTimer = setTimeout(() => {counter++}, 1000);
-  //   } else {
-  //     clearTimeout(pauseTimer);
-  //   }
-  //   console.log(counter);
-  // }, [isPausePressed])
+ 
+  useEffect(() => {
+    const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+    setNameDay(days[day])
+  }, [result, day])
 
   useEffect(() => {
     if (isStopPressed) setIsStartPressed(false)
   }, [isStopPressed])
 
-  // useEffect(() => {
-  //   const display = document.querySelector('.display');
-  //   let total = display.innerText.split(":");
-  //   total = parseInt(total[0] * 60) + parseInt(total[1]);
-  //   let arr = [];
-  //   let week = {};
+  useEffect(() => {
+    if (numberOfWeek.length > 3) {
+      numberOfWeek.splice(0,1)
+    }
+  }, [numberOfWeek.length]);
 
-  //   if (day === new Date().getDay()) {
-  //     let obj = {};
-  //     obj[day] = {};
-  //     obj[day].time = total;
-  //     obj[day].tomato = 0;
-  //     obj[day].pause = 0;
-  //     obj[day].stop = 0;
-  //     let base = JSON.parse(localStorage.getItem('base'));
-  //     if (base && base.find((item) => Object.keys(item) == result)) {
-  //       return;
-  //     }
-  //     week[result] = obj;
-  //     arr.push(week);
-  //     localStorage.setItem('base', JSON.stringify(arr));
+  function getDataForStat() {
+    const display = document.querySelector('.display');
+    let total = display.innerText.split(":");
+    total = parseInt(total[0] * 60) + parseInt(total[1]);
 
-  //   }
-  // }, [day, result])
+    if (numberOfWeek.length == 0) {
+      dispatch(saveNumberOfWeek(result));
+      dispatch({
+        type: 'CREATE_DATA',
+        id: 0,
+        day: nameDay,
+        time: total,
+        tomato: 0,
+        focus: 0,
+        pause: 0,
+        stops: 0,
+      });
+      setTimeout(() => {
+        localStorage.setItem('stat', JSON.stringify(data));
+      })
+    } else {
+      for (let i = 0; i < numberOfWeek.length; i++) {
+        if (result !== numberOfWeek[i]) {
+          dispatch(saveNumberOfWeek(result)) 
+        }
+      }    
+    }
+  }
 
   function addZero (num) {
     if (num <= 9) {
@@ -83,8 +89,7 @@ export function Timer() {
     reset();
   }
 
-  let i = 1,
-      j = 1;
+  let i = 1, j = 1;
 
   function setTimer(timeMinute = 10) {
     const display = document.querySelector('.display');
@@ -158,6 +163,7 @@ export function Timer() {
                     onClick={() => {
                       setTimer();
                       setIsStartPressed(true);
+                      getDataForStat();
                     }}
             />
           )}

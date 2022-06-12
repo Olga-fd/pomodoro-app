@@ -13,6 +13,60 @@ import { rootReducer } from './store/store';
 const store = createStore(rootReducer, composeWithDevTools());
 
 export function App() {
+  let arr = [ 
+    {id: 0,
+    'Пн': {
+      time: 40,
+      tomato: 1,
+      focus: 62,
+      pause: 10,
+      stops: 1,
+    },
+    'Вт': {
+      time: 50,
+      tomato: 2,
+      focus: 100,
+      pause: 10,
+      stops: 2,
+    },
+    'Ср': {
+      time: 30,
+      tomato: 1,
+      focus: 83,
+      pause: 5,
+      stops: 0,
+    },
+    'Чт': {
+      time: 60,
+      tomato: 2,
+      focus: 83,
+      pause: 10,
+      stops: 1,
+    },
+    'Пт': {
+      time: 50,
+      tomato: 2,
+      focus: 100,
+      pause: 10,
+      stops: 0,
+    },
+    'Сб': {
+      time: 100,
+      tomato: 3,
+      focus: 75,
+      pause: 25,
+      stops: 3,
+    },
+    'Вс': {
+      time: 25,
+      tomato: 1,
+      focus: 100,
+      pause: 0,
+      stops: 0,
+      },
+    }]
+  localStorage.setItem('stat', JSON.stringify(arr));
+
   return (
     <Provider store={store}>
       <BrowserRouter>

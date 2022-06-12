@@ -31,7 +31,7 @@ export function MainBlock() {
       quantity: 1, 
       time: 25
     });
-    localStorage.setItem('toDoList', JSON.stringify(toDoList));
+    //localStorage.setItem('toDoList', JSON.stringify(toDoList));
     setInputValue('');
   }
 

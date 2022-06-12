@@ -56,14 +56,6 @@ export function DeleteTask() {
 
       <button className="delBtn" onClick={() => {
           deleteRow();
-          // let index = JSON.parse(localStorage.index);
-          // dispatch({
-          //   type: 'DELETE_TASK', 
-          //   id: index, 
-          // });
-          // closeModal();  
-          // changeDataId();
-          // changeId();
         }
       }>
         Удалить
