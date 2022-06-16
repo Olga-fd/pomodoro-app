@@ -10,51 +10,70 @@ import { WatchIcon } from "../../Icons/WatchIcon";
 import { useDispatch, useSelector } from "react-redux";
 
 export function StatBlocks() {
-  const [isDayOfWeek, setIsDayOfWeek] = useState('Понедельник');
-  const [isTomato, setIsTomato] = useState(false);
-  const [week, setWeek] = useState(0);
-  const dayOfWeek = useSelector(state => state.selectedDay);
-  const [selectedDay, setSelectedDay] = useState('Пн');
   const dispatch = useDispatch();
-
+  const days = [
+    'Воскресенье',
+    'Понедельник',
+    'Вторник',
+    'Среда',
+    'Четверг',
+    'Пятница',
+    'Суббота',
+  ];
+  
+  const [isDayOfWeek, setIsDayOfWeek] = useState('');
+  const [week, setWeek] = useState(0);
+  const [coloredFooter, setColoredFooter] = useState(false);
+  const dayOfWeek = useSelector(state => state.selectedDay);
+  const [selectedDay, setSelectedDay] = useState('');
+ 
   // const store = useStore();
   // const data = store.getState().data; 
   const base = useSelector(state => state.selectedWeek);
-  let dataForStat = useSelector(state => state.statData);
+  const dataForStat = useSelector(state => state.statData);
   const selected = document.querySelectorAll('.select-hide');
-  
+
   let data;
   if (dataForStat.length == 0) {
     data = JSON.parse(localStorage.stat);
     dispatch({
       type: 'SET_INIT',
       base: data
-    })
-    //localStorage.clear()
+    });  
+    setTimeout(() => {localStorage.clear()}, 3000)
   } else {
     data = dataForStat;
   }
     
   useEffect(() => {
     setWeek(base);
-  }, [selected])
+    setSelectedDay(dayOfWeek)
+  }, [selected, dayOfWeek])
 
   useEffect(() => {
-    setSelectedDay(dayOfWeek)
+    const names = document.querySelectorAll('.statMain__chart_footer span');
+    if (week == 0) {
+      names.forEach(name => name.innerText == dayOfWeek
+        ? name.classList.add('text-punch')
+        : name
+      )
+    } else {
+      const text = document.querySelector('.text-punch');
+      text.classList.remove('text-punch');
+    }
+  }, [week]);
+
+  useEffect(() => {
+    if (data[week][dayOfWeek] && data[week][dayOfWeek].time !== (undefined || 0)) {
+      setColoredFooter(true)
+    } else {
+      setColoredFooter(false)
+    }
   }, [dayOfWeek])
   
+
   function getDayOfWeek(e) {
-    //const date = new Date();
     const date = e.target.dataset.id;
-    const days = [
-      'Воскресенье',
-      'Понедельник',
-      'Вторник',
-      'Среда',
-      'Четверг',
-      'Пятница',
-      'Суббота',
-    ];
     if (date == 7) {
       setIsDayOfWeek(days[0]);
     } else {
@@ -64,12 +83,6 @@ export function StatBlocks() {
       type: 'GET_DAY',
       day: e.target.innerText,
     })
-  }
-
-  function getStatData(e) {
-    const divs = document.querySelectorAll('.statFooter div');
-    divs.forEach(div => div.classList.remove('non-active'));
-    setIsTomato(true)
   }
 
   function changeColor(e) {
@@ -162,18 +175,23 @@ export function StatBlocks() {
       <div className="statMain">
         <div className="statMain__day">
           <h2>{isDayOfWeek}</h2>
-          <p>Вы&nbsp;работали над задачами в&nbsp;течение 
-            {/* <span className="statMain__day_span"> {getTime(data[week][selectedDay].time)}</span> */}
-          </p>
+          {data[week] !== undefined && data[week][selectedDay] !== undefined
+            ? <p>Вы&nbsp;работали над задачами в&nbsp;течение&nbsp;
+                <span className="statMain__day_span">
+                  {getTime(data[week][selectedDay].time)}
+                </span>
+              </p>
+            : <p>Нет данных</p>                                 
+          }
         </div>
         <div className="statMain__pomodoro">
-          {isTomato 
+          {data[week] !== undefined && data[week][selectedDay] !== (0 || undefined)
             ? <div className="statMain__pomodoro_wrap">
                 <div className="statMain__pomodoro_header">
                   <img className="statMain__pomodoro_img" src={tomato} alt='Помидор' />
-                  {/* <span className="statMain__pomodoro_span">х {data[week][selectedDay].tomato}</span> */}
+                  <span className="statMain__pomodoro_span">х {data[week][selectedDay].tomato}</span>
                 </div>
-                {/* <div className="statMain__pomodoro_footer">{conjugateTomato(data[week][selectedDay].tomato)}</div> */}
+                <div className="statMain__pomodoro_footer">{conjugateTomato(data[week][selectedDay].tomato)}</div>
               </div>
             : <img className="tomato" src={pomodoro} alt='Помидор' />
           }
@@ -186,43 +204,42 @@ export function StatBlocks() {
           <div className="statMain__chart_footer" onClick={(e) => {
             getDayOfWeek(e); 
             changeColor(e);
-            getStatData(e);
           }}>
             {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((day, index) =>
-              <span data-id={index + 1}>{day}</span> 
+              <span key={index} data-id={index + 1}>{day}</span> 
             )}
           </div>
         </div>
       </div>
       <div className="statFooter">
         
-        <div className="statFooter__focus non-active">
+        <div className={`statFooter__focus ${coloredFooter ? '' : 'non-active'}`}>
           <div className="wrap">
             <p className="statFooter__title">Фокус</p>
             <span className="statFooter__span">
-              {/* {data ? `${data[week][selectedDay].focus}%` : '0%'} */}
+              {data[week] && data[week][selectedDay] ? `${data[week][selectedDay].focus}%` : '0%'}
             </span>
           </div>
           
           <CirclesIcon/>
         </div>
         
-        <div className="statFooter__time non-active">
+        <div className={`statFooter__time ${coloredFooter ? '' : 'non-active'}`}>
           <div className="wrap">
             <p className="statFooter__title">Время на паузе</p>
             <span className="statFooter__span">
-              {/* {data ? `${getTimeShort(data[week][selectedDay].pause)}` : '0м'} */}
+              {data[week] && data[week][selectedDay] ? `${getTimeShort(data[week][selectedDay].pause)}` : '0м'}
             </span>
           </div>
        
           <WatchIcon/>
         </div>
         
-        <div className="statFooter__pause non-active">
+        <div className={`statFooter__pause ${coloredFooter ? '' : 'non-active'}`}>
           <div className="wrap">
             <p className="statFooter__title">Остановки</p>
             <span className="statFooter__span">
-              {/* {data ? data[week][selectedDay].stops : 0} */}
+              {data[week] && data[week][selectedDay] ? data[week][selectedDay].stops : 0}
             </span>
           </div>
           

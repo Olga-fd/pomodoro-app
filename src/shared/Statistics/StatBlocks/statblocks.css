@@ -117,6 +117,7 @@
 .statFooter {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .statFooter > div { 
@@ -164,10 +165,10 @@
 .non-active {
   background-color: var(--greyF4);
 }
+
 .non-active svg path {
   stroke: var(--greyC4)
 }
-
 
 .statMain__pomodoro_wrap {
   width: 100%;

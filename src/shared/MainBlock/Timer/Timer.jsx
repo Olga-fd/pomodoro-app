@@ -4,7 +4,7 @@ import { saveNumberOfWeek } from '../../../store/store';
 import { Button } from './Button/Button';
 import './timer.css';
 
-let timer;
+let timer, timerPause;
 
 export function Timer() {
   const [isStartPressed, setIsStartPressed] = useState(false);
@@ -21,9 +21,10 @@ export function Timer() {
   let numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
   let result = Math.ceil((day + 1 + numberOfDays) / 7);
 
-  const data = useSelector(state => state.statData);
+  const data = useSelector(state => state.statData);  
+  const store = useSelector(state => state);
   const dispatch = useDispatch();
- 
+
   useEffect(() => {
     const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
     setNameDay(days[day])
@@ -34,23 +35,18 @@ export function Timer() {
   }, [isStopPressed])
 
   useEffect(() => {
-    if (numberOfWeek.length > 3) {
-      numberOfWeek.splice(0,1)
-    }
-  }, [numberOfWeek.length]);
-
-  function getDataForStat() {
     const display = document.querySelector('.display');
     let total = display.innerText.split(":");
-    total = parseInt(total[0] * 60) + parseInt(total[1]);
+    //total = parseInt(total[0] * 60) + parseInt(total[1]);
+    let minutes = parseInt(total[0]);
 
-    if (numberOfWeek.length == 0) {
-      dispatch(saveNumberOfWeek(result));
+    if (isStartPressed) {
+      if (numberOfWeek.length == 0) {
       dispatch({
         type: 'CREATE_DATA',
         id: 0,
         day: nameDay,
-        time: total,
+        time: minutes,
         tomato: 0,
         focus: 0,
         pause: 0,
@@ -58,13 +54,77 @@ export function Timer() {
       });
       setTimeout(() => {
         localStorage.setItem('stat', JSON.stringify(data));
-      })
+      }, 3000)
+      } else if (numberOfWeek.length == 2) {
+        dispatch({
+          type: 'CREATE_DATA',
+          id: 1,
+          day: nameDay,
+          time: minutes,
+          tomato: 0,
+          focus: 0,
+          pause: 0,
+          stops: 0,
+        });
+      } else if (numberOfWeek.length == 3) {
+        dispatch({
+          type: 'CREATE_DATA',
+          id: 2,
+          day: nameDay,
+          time: minutes,
+          tomato: 0,
+          focus: 0,
+          pause: 0,
+          stops: 0,
+        });
+      }
+    }
+    
+    // if (numberOfWeek.length > 3) {
+    //   numberOfWeek.splice(0,1)
+    // }
+  }, [numberOfWeek.length, isStartPressed]);
+
+  useEffect(() => {  
+    let count = 0;
+    if (isPausePressed && !isBreak) { 
+      dispatch({
+        type: 'ADD_STOP',
+        id: 2,
+        day: store.selectedDay,
+        stop: data[store.selectedWeek][store.selectedDay].stops + 1
+      });
+      timerPause = setInterval(() => {
+        count = ++count;
+        localStorage.setItem('count', count)
+      }, 1000)
+     
+    }
+    if (isPausePressed == false) {
+      clearInterval(timerPause);
+      if (localStorage.count) {
+        dispatch({
+        type: 'ADD_PAUSE',
+        id: 2,
+        day: store.selectedDay,
+        pause: JSON.parse(localStorage.count),
+      });
+      }
+      
+    } 
+  }, [isPausePressed])
+
+  function getDataForStat() {
+    if (numberOfWeek.length == 0) {
+      dispatch(saveNumberOfWeek(result));
     } else {
       for (let i = 0; i < numberOfWeek.length; i++) {
         if (result !== numberOfWeek[i]) {
-          dispatch(saveNumberOfWeek(result)) 
+          //записываем номер недели, если нет в массиве
+          dispatch(saveNumberOfWeek(result));
+          return
         }
-      }    
+      }
     }
   }
 

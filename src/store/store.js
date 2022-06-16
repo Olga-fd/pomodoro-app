@@ -2,7 +2,7 @@ const initialState = {
   isModalOpened: false,
   selectedDay: 'Пн',
   selectedWeek: 0,
-  numberOfWeek: [],
+  numberOfWeek: [23, 24],
   toDoList: [],
   statData: [
     // {id: 0,
@@ -173,6 +173,9 @@ const SAVE_WEEK = 'SAVE_WEEK';
 const SET_INIT = 'SET_INIT';
 const SET_WEEK = 'SET_WEEK';
 const GET_DAY = 'GET_DAY';
+const ADD_STOP = 'ADD_STOP';
+const ADD_PAUSE = 'ADD_PAUSE';
+const GET_TOMATO = 'GET_TOMATO';
 
 export const updateStatusModal = (status) => ({ 
     type: UPDATE_STATUS, 
@@ -263,12 +266,12 @@ export function rootReducer(state = initialState, action) {
       return {
         ...state,
         statData: state.statData.map(
-          item => item.id === action.id
+          item => item.id === action.id 
             ? {
-              ...item,
-              time: action.time,
-            }
-            : item
+                ...item,
+                time: action.time,
+              }
+          : item
         ),
       }
     case SET_INIT:
@@ -286,6 +289,48 @@ export function rootReducer(state = initialState, action) {
         ...state,
         selectedDay: action.day
       }
+    case ADD_STOP:
+      return {
+        ...state,
+        statData: state.statData.map(
+          item => item.id === action.id
+            ? { ...item,
+                [action.day]: {
+                  ...item[action.day],
+                  stops: action.stop,
+                },
+              }
+            : item
+        ),
+      }
+    case ADD_PAUSE:
+      return {
+        ...state,
+        statData: state.statData.map(
+          item => item.id === action.id
+            ? { ...item,
+                [action.day]: {
+                  ...item[action.day],
+                  pause: action.pause
+                },
+              }
+            : item
+        ),
+    }
+    case GET_TOMATO:
+      return {
+        ...state,
+        statData: state.statData.map(
+          item => item.id === action.id
+            ? { ...item,
+                [action.day]: {
+                  ...item[action.day],
+                  tomato: action.tomato
+                },
+              }
+            : item
+        ),
+    }
     default:
       return state; 
   };
