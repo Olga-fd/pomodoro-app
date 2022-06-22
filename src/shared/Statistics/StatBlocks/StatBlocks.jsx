@@ -59,7 +59,7 @@ export function StatBlocks() {
       )
     } else {
       const text = document.querySelector('.text-punch');
-      text.classList.remove('text-punch');
+      if (text) text.classList.remove('text-punch');
     }
   }, [week]);
 

@@ -7,6 +7,9 @@
 
 .header {
   height: 70px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 @media all and (min-width: 1024px) {

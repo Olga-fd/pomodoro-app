@@ -11,6 +11,11 @@
   width: 380px;
 }
 
+.dark .custom-select * {
+  background-color: var(--woodyBrown);
+  color: var(--harp);
+}
+
 .custom-select select {
   display: none; /*hide original SELECT element: */
 }
@@ -45,7 +50,8 @@
   padding: 1.17rem 1rem;
 }
 
-.select-items div:not(:last-child) {
+.select-items div:nth-child(2) {
+  border-top: 1px solid #dedede;
   border-bottom: 1px solid #dedede;
 }
 

@@ -1,9 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './header.css';
 import '../../main.css';
-import {Statistics} from '../Statistics/Statistics'
+import { useSelector } from "react-redux";
+import {Statistics} from '../Statistics/Statistics';
+import {Theme} from '../Theme/Theme'
 
 export function Header() {
+  const lightTheme = useSelector(state => state.lightTheme); 
+ 
+  useEffect(() => {
+    if (lightTheme) {
+      document.body.classList.remove('dark')
+    } else {
+      document.body.classList.add('dark')
+    }
+  }, [lightTheme])
+
   return (
     <header className="header">
       <div className="flex-block">
@@ -21,7 +33,14 @@ export function Header() {
         </svg>
         <span className="logo">pomodoro_box</span>
       </div>
+        <Theme/>
         <Statistics/>
     </header>
   );
 }
+
+// {`header ${lightTheme 
+//   ? ''
+//   : 'dark'
+// }`
+// }

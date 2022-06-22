@@ -11,13 +11,14 @@ export function MainBlock() {
   const [hours] = useTime();
   const toDoList = useSelector(state => state.toDoList);
   const statusModal = useSelector(state => state.isModalOpened);
+  const lightTheme = useSelector(state => state.lightTheme); 
   const [isModalOpened, setIsModalOpened] = useState(statusModal);
   const dispatch = useDispatch();
  
   useEffect(() => {
     setIsModalOpened(statusModal);
   }, [statusModal]);
- 
+
   function handleChange(e) {
     setInputValue(e.currentTarget.value)
   }
@@ -38,8 +39,17 @@ export function MainBlock() {
   return (
     <div className="mainblock">
       <div>
-        <p className="paragraph">Ура! Теперь можно начать работать:</p>
-        <ul className="listInstr">
+        <p className={`paragraph ${lightTheme 
+                                    ? ''
+                                    : 'text--dark'
+                                  }`
+                      }
+        >Ура! Теперь можно начать работать:</p>
+        <ul className={`listInstr ${lightTheme 
+                                    ? ''
+                                    : 'text--dark'
+                                  }`
+                      }>
           <li>Выберите категорию и напишите название текущей задачи</li>
           <li>Запустите таймер («помидор»)</li>
           <li>Работайте пока «помидор» не прозвонит</li>
@@ -68,3 +78,22 @@ export function MainBlock() {
     </div>
   );
 }
+
+
+{/* <div className={`mainblock ${lightTheme 
+  ? ''
+  : 'dark'
+}`
+}>
+<div>
+<p className={`paragraph ${lightTheme 
+      ? ''
+      : 'text--dark'
+    }`
+}
+>Ура! Теперь можно начать работать:</p>
+<ul className={`listInstr ${lightTheme 
+      ? ''
+      : 'text--dark'
+    }`
+}> */}

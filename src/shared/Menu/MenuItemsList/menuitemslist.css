@@ -5,6 +5,10 @@
   padding-bottom: 7px;
 }
 
+.dark .menuItemsList {
+  background-color: var(--woodyBrown);
+}
+
 /* .menuItemsList::after {
   content: '';
   position: absolute;
@@ -30,6 +34,10 @@
 .menuItem:hover {
   background-color: var(--greyF4);
   cursor: pointer;
+}
+
+.dark .menuItem:hover {
+  background-color: var(--cocoaBrown);
 }
 
 .menuItem > svg + span {

@@ -46,16 +46,22 @@
   --black:          #333333;
   --thunder:        #2f2525;
   --oliveGreen:     #a8b64f;
+  --woodyBrown:     #4B3434;
+  --cocoaBrown:     #331F1F;
   --sycamore:       #899441;
   --silver:         #c4c4c4;
   --punch:          #dc3e22;
   --rust:           #b7280f;
   --totemPole:      #9F200C;
+  --milanoRed:      #c42408;
   --apricot:        #ea8a79;
   --burntSienna:    #ee735d;
   --navajoWhite:    #ffdda9;
   --fog:            #dfdcfe;
   --onahau:         #c5f1ff;
+  --ebony:          #0e1621;
+  --mirage:         #182633;
+  --harp:           #e5f1eb;
   --whiteLightness: 100%;
   --white:          hsl(0, 0%, var(--whiteLightness));
   --greyF4:         hsl(0, 0%, calc(var(--whiteLightness) - 4%));
@@ -141,6 +147,15 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dark {
+  background-color: var(--thunder);
+}
+
+.text--dark,
+.text--dark li {
+  color: var(--harp);
 }
 
 table {

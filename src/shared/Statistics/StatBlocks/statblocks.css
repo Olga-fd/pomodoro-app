@@ -12,6 +12,10 @@
   font-weight: 700;
 }
 
+.dark .statHeader h1 {
+  color: var(--harp);
+}
+
 .statMain {
   display: grid;
   grid-template-areas: "day chart"
@@ -199,4 +203,13 @@
   font-weight: 700;
   font-size: 24px;
   color: var(--grey99);
+}
+
+.dark .statMain__day,
+.dark .statMain__day *,
+.dark .statMain__pomodoro,
+.dark .statMain__pomodoro *,
+.dark .statFooter div * {
+  background-color: var(--woodyBrown);
+  color: var(--harp)
 }

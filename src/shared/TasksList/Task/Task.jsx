@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Menu } from '../../Menu/Menu';
+// import { setNumberOfWeek} from '../../../store/store';
 import './task.css';
 
 export function Task({task}) {
   const [taskTitle, setTaskTitle] = useState(`${task.title}`);
   const dispatch = useDispatch();
+  const data = useSelector(state => state.statData);
   const toDoList = useSelector(state => state.toDoList);
   const week = useSelector(state => state.selectedWeek);
   const currentDay = useSelector(state => state.selectedDay);
+  const numberOfWeek = useSelector(state => state.numberOfWeek);
 
-  // useEffect(() => {
-  //   if (toDoList && isStopPressed) {
-  //     dispatch({
-  //       type: 'GET_TOMATO',
-  //       id: week,
-  //       task: 
-  //     })
-  //   } 
-  // }, [isStopPressed, toDoList, week])
+  function getTomatoes(e) {
+    if (data.length !== 0) {
+      if (data[week][currentDay]) {
+    dispatch({
+      type: 'GET_TOMATO',
+      id: week,
+      day: currentDay,
+      tomato: toDoList[e.target.dataset.id - 1].quantity
+    })
+      }  
+    }
+  }
   
   return (
     <tr className="taskItem" data-id={`${task.id}`}>
@@ -27,16 +33,16 @@ export function Task({task}) {
         document.querySelector('.timer-header span:first-child').textContent = e.target.closest('.taskItem_input').value;
         document.querySelector('.timer-main span:last-child').textContent = e.target.closest('.taskItem_input').value;
         document.querySelector('.timer-main span:first-child').textContent = `Задача ${e.target.dataset.id} - `
-        dispatch({
-          type: 'GET_TOMATO',
-          id: week,
-          day: currentDay,
-          task: e.target.dataset.id,
-          tomato: toDoList[e.target.dataset.id - 1].quantity
-        })
+        localStorage.setItem('task', JSON.stringify(e.target.dataset.id))
+        getTomatoes(e);
       }}>
-        <input className="taskItem_input" data-id={`${task.id}`} value={taskTitle} 
-            onChange={(e) => {
+        <input className={`taskItem_input ${task.quantity == 0
+                                              ? 'crossed' 
+                                              : ''
+                                          }`} 
+          data-id={`${task.id}`} 
+          value={taskTitle} 
+          onChange={(e) => {
               setTaskTitle(e.target.value);
               //e.target.style.width = e.target.offsetWidth + 'px'
             }

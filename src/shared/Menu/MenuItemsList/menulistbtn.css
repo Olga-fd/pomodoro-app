@@ -11,3 +11,8 @@
   background-size: auto;
 }
 
+.dark .dropdown {
+  background-color: var(--woodyBrown);
+  /* border: 5px solid var(--woodyBrown); */
+  background-image: none
+}

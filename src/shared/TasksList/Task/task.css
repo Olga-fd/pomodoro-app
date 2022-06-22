@@ -1,5 +1,6 @@
 .taskItem {
   border-top: 1px solid var(--greyE3);
+  border-bottom: 1px solid var(--greyE3);
 }
 
 .taskItem td {
@@ -15,12 +16,12 @@
   width: 14px;
 }
 
-.taskItem:last-child td {
+/* .taskItem:last-child td {
   border-bottom: 1px solid var(--greyE3);
-}
+} */
 .taskItem_title {
   display: inline-block;
-  line-height: 25px;
+  line-height: 31px;
 }
 
 .taskItem_input {
@@ -52,4 +53,10 @@
   padding-top: 5px;
   border: 1px solid var(--silver);
   border-radius: 25px;
+}
+
+.crossed {
+  text-decoration: line-through; /* Добавляем зачеркивание */
+  text-decoration-color: firebrick;
+  text-decoration-thickness: 3px;
 }

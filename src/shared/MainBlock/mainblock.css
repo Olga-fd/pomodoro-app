@@ -48,3 +48,15 @@
   margin-top: 19px;
   color: var(--grey99);
 }
+
+
+.dark table *{
+  color: var(--harp);
+}
+
+.dark .input-add {
+  background-color: var(--cocoaBrown);
+  border: 1px solid var(--woodyBrown);
+  color: var(--harp);
+  outline: none;
+}

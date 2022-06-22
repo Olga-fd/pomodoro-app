@@ -48,9 +48,14 @@
   margin-left: 25px;
 } */
 
-.countdown svg:hover circle {
+.btn-plus svg:hover circle {
   fill: var(--sycamore);
   cursor: pointer;
+}
+
+.btn-plus:disabled svg:hover circle {
+  fill: var(--greyC4);
+  cursor: default;
 }
 
 .timer-main {
@@ -63,6 +68,7 @@
 
 .display {
   display: inline-block;
+  width: 23.625rem;
   font-size: 150px;
   font-weight: 200;
   line-height: 150px;
@@ -74,6 +80,10 @@
   background-color: var(--punch);
   transition: .3s ease-in-out;
 }  
+
+.dark .started {
+  background-color: var(--milanoRed);
+}
 
 .started span,
 .break span {
@@ -95,4 +105,24 @@
 
 .break--text {
   color: var(--oliveGreen);
+}
+
+.header--dark {
+  background-color: var(--cocoaBrown);
+}
+
+.header--dark span {
+  color: var(--harp);
+}
+
+.timer--dark {
+  background-color: var(--woodyBrown);
+}
+
+.timer--dark * {
+  color: var(--harp);
+}
+
+.dark .timer--red {
+  color: var(--milanoRed);
 }

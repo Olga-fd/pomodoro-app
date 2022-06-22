@@ -1,7 +1,17 @@
 .shadow {
   width: 100%;
+}
+
+.shadow--light { 
   height: 67px;
   margin-bottom: 33px;
-  /* margin-bottom: 18px; */
   background-image: url('./shadow.png');
+}
+
+.shadow--dark {
+  height: 100px;
+  background-image: none;
+  background-color: var(--thunder);
+  /* transition: .3s; */
+  /* display: none; */
 }
