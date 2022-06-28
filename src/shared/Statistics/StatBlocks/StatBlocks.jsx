@@ -8,6 +8,7 @@ import { CirclesIcon } from "../../Icons/CirclesIcon";
 import { StopIcon } from "../../Icons/StopIcon";
 import { WatchIcon } from "../../Icons/WatchIcon";
 import { useDispatch, useSelector } from "react-redux";
+import {NotFound} from '../../NotFound/NotFound';
 
 export function StatBlocks() {
   const dispatch = useDispatch();
@@ -29,26 +30,35 @@ export function StatBlocks() {
  
   // const store = useStore();
   // const data = store.getState().data; 
-  const base = useSelector(state => state.selectedWeek);
+  const selectedWeek = useSelector(state => state.selectedWeek);
   const dataForStat = useSelector(state => state.statData);
   const selected = document.querySelectorAll('.select-hide');
 
   let data;
   if (dataForStat.length == 0) {
+    let currentDay = new Date().getDay();
+    setIsDayOfWeek(days[currentDay]);
+
+   
     data = JSON.parse(localStorage.stat);
     dispatch({
       type: 'SET_INIT',
       base: data
     });  
-    setTimeout(() => {localStorage.clear()}, 3000)
-  } else {
-    data = dataForStat;
-  }
-    
+      setTimeout(() => {localStorage.clear()}, 3000)
+    } else {
+      data = dataForStat;
+   }
+
   useEffect(() => {
-    setWeek(base);
+    setWeek(selectedWeek);
     setSelectedDay(dayOfWeek)
   }, [selected, dayOfWeek])
+
+  // useEffect(() => {
+    
+  //   setIsDayOfWeek(dayOfWeek)
+  // }, [isDayOfWeek])
 
   useEffect(() => {
     const names = document.querySelectorAll('.statMain__chart_footer span');
@@ -166,7 +176,7 @@ export function StatBlocks() {
   }
 
   return (
-    <div>
+    <div>    
       <div className="statHeader">
         <h1>Ваша активность</h1>
         <SelectWeek />
@@ -247,6 +257,5 @@ export function StatBlocks() {
         </div>
       </div>
     </div>
-    
   )
 }

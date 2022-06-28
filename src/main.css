@@ -168,6 +168,11 @@ table {
   font-weight: 500;
 }
 
+
+button:disabled {
+  cursor:not-allowed;
+}
+
 .btn--green {
   margin-right: 10px;
   color: var(--white);

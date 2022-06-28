@@ -1,8 +1,9 @@
 const initialState = {
   lightTheme: true,
   isModalOpened: false,
-  selectedDay: '',
-  selectedWeek: '',
+  isTitled: false,
+  selectedDay: 'Пн',
+  selectedWeek: 0,
   numberOfWeek: [0],
   toDoList: [],
   statData: [
@@ -182,6 +183,7 @@ const GET_TOMATO = 'GET_TOMATO';
 const MINUS_TOMATO = 'MINUS_TOMATO';
 const DEL_TOMATO = 'DEL_TOMATO';
 const SET_THEME = 'SET_THEME';
+const SET_NAME = 'SET_NAME';
 
 export const updateStatusModal = (status) => ({ 
     type: UPDATE_STATUS, 
@@ -193,6 +195,12 @@ export const saveNumberOfWeek = (weekNum) => ({
     type: SAVE_WEEK, 
     weekNum,
   }
+)
+
+export const deleteTask= (id) => ({ 
+  type: DELETE_TASK, 
+  id,
+}
 )
 
 export const setNumberOfWeek = (weekNum) => ({ 
@@ -272,6 +280,11 @@ export function rootReducer(state = initialState, action) {
       return {
         ...state,
         isModalOpened: action.status,
+      };
+    case SET_NAME: 
+      return {
+        ...state,
+        isTitled: action.position,
       };
     case CHANGE_ID:
       return {

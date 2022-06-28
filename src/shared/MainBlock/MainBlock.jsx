@@ -4,6 +4,7 @@ import { TasksList } from '../TasksList/TasksList';
 import { useTime } from '../../hooks/useTime';
 import { useDispatch, useSelector } from 'react-redux';
 import {DarkBack} from '../TasksList/Task/DeleteTask/DarkBack/DarkBack';
+
 import './mainblock.css';
 
 export function MainBlock() {
@@ -12,6 +13,8 @@ export function MainBlock() {
   const toDoList = useSelector(state => state.toDoList);
   const statusModal = useSelector(state => state.isModalOpened);
   const lightTheme = useSelector(state => state.lightTheme); 
+  const day = useSelector(state => state.selectedDay); 
+  const data = useSelector(state => state.statData); 
   const [isModalOpened, setIsModalOpened] = useState(statusModal);
   const dispatch = useDispatch();
  

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { CrossIcon } from '../../../Icons/CrossIcon';
 import { useDispatch, useSelector } from "react-redux";
-import { updateStatusModal } from '../../../../store/store';
+import { updateStatusModal, deleteTask } from '../../../../store/store';
 import './deletetask.css';
 
 export function DeleteTask() {
@@ -33,10 +33,7 @@ export function DeleteTask() {
 
   function deleteRow() {
     let index = JSON.parse(localStorage.index);
-    dispatch({
-      type: 'DELETE_TASK', 
-      id: index, 
-    });
+    dispatch(deleteTask(index));
     closeModal();     
     setTimeout(() => {
       changeDataId();

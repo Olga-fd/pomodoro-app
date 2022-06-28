@@ -5,12 +5,12 @@
 .shadow--light { 
   height: 67px;
   margin-bottom: 33px;
-  background-image: url('./shadow.png');
+  background-image: url('../../images/shadow.png');
 }
 
 .shadow--dark {
   height: 100px;
-  background-image: none;
+  background-image: url('../../images/dark.jpg');
   background-color: var(--thunder);
   /* transition: .3s; */
   /* display: none; */

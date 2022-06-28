@@ -23,7 +23,7 @@ export function Theme() {
   }, [isLightTheme])
   
   return (
-    <button onClick={() => setLightTheme(!isLightTheme)}>
+    <button className='size' onClick={() => setLightTheme(!isLightTheme)}>
       {isLightTheme
         ? <MoonIcon/>
         : <SunIcon/>

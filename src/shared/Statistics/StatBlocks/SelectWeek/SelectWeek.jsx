@@ -14,7 +14,7 @@ export function SelectWeek() {
     found.classList.add('select-hide');
     dispatch({
       type: 'SET_WEEK',
-      week: found.dataset.week,
+      weekNum: found.dataset.week,
     })
     let filtered = divOptions.filter(div => div.innerText !== selectSelected);
     filtered.forEach(div => div.classList.remove('select-hide'));

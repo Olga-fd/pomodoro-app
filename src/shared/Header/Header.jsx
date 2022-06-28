@@ -3,7 +3,8 @@ import './header.css';
 import '../../main.css';
 import { useSelector } from "react-redux";
 import {Statistics} from '../Statistics/Statistics';
-import {Theme} from '../Theme/Theme'
+import {Theme} from '../Theme/Theme';
+
 
 export function Header() {
   const lightTheme = useSelector(state => state.lightTheme); 
@@ -38,9 +39,3 @@ export function Header() {
     </header>
   );
 }
-
-// {`header ${lightTheme 
-//   ? ''
-//   : 'dark'
-// }`
-// }

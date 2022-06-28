@@ -34,8 +34,8 @@ export function App() {
         <Shadow/>
         <Layout>
           <Routes>
-            <Route path="/" element={<Navigate replace to="/index" />} />
-            <Route path="/index" element={<MainBlock/>} />
+            {/* <Route path="/" element={<Navigate replace to="/" />} /> */}
+            <Route path="/" element={<MainBlock/>} />
             <Route path="/statistics" element={<StatBlocks/>} />
             <Route path="*" element={ <Navigate to="/error" />} />
           </Routes>
@@ -44,5 +44,8 @@ export function App() {
     </Provider>
   );
 }
+
+
+
 
 

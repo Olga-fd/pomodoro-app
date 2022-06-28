@@ -1,6 +1,8 @@
 .taskItem {
   border-top: 1px solid var(--greyE3);
   border-bottom: 1px solid var(--greyE3);
+
+  transition: transform 1s linear 0s, opacity 1s linear 0s, font-size 0.5s linear 0.5s, border .5s linear .5s;
 }
 
 .taskItem td {
@@ -56,7 +58,22 @@
 }
 
 .crossed {
-  text-decoration: line-through; /* Добавляем зачеркивание */
-  text-decoration-color: firebrick;
-  text-decoration-thickness: 3px;
+  transform: translateX(100%);
+  opacity: 0;
+  font-size: 0;
+  border: none;
 }
+
+
+
+/* tr {
+  transition: transform 1s linear 0s, opacity 1s linear 0s, font-size 0.5s linear 0.5s;
+}
+
+tr.deleted {
+  transform: translateX(100%);
+  opacity: 0;
+  font-size: 0;
+} */
+
+
