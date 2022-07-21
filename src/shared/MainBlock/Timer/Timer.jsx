@@ -259,7 +259,7 @@ export function Timer() {
           display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
       --timeMin;
-      }, 10)  
+      }, 1000)  
   }
 
   function setTimer(timeMinute = 1500) {
@@ -282,7 +282,7 @@ export function Timer() {
         display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
       --timeMinute;
-    }, 10) 
+    }, 1000) 
   } 
 
   return (
