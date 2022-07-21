@@ -24,7 +24,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<MainBlock/>} />
             <Route path="/statistics" element={<StatBlocks/>} />
-            <Route path="*" element={ <Navigate to="/error" />} />
+            <Route path="/*" element={ <Navigate to="/error" />} />
           </Routes>
         </Layout>
       </BrowserRouter>
