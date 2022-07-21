@@ -50,8 +50,6 @@ const SAVE_WEEK = 'SAVE_WEEK';
 const SET_LIMIT = 'SET_LIMIT';
 const SAVE_ID = 'SAVE_ID';
 const SAVE_COUNT = 'SAVE_COUNT';
-const SET_INIT = 'SET_INIT';
-const SET_INIT_TODO = 'SET_INIT_TODO';
 const SET_WEEK = 'SET_WEEK';
 const SET_GOTTEN ='SET_GOTTEN';
 const SET_DROPDOWN ='SET_DROPDOWN';
@@ -85,16 +83,6 @@ export const setSelectedTitle = (title) => ({
 export const setName = (status) => ({
   type: SET_NAME, 
   status,
-})
-
-export const setInitData = (base) => ({
-  type: SET_NAME, 
-  base,
-})
-
-export const setInitToDo = (base) => ({
-  type: SET_INIT_TODO, 
-  base,
 })
 
 export const setNumTask = (num) => ({
@@ -331,11 +319,6 @@ export function rootReducer(state = initialState, action) {
         ...state,
         selectedTitle: action.title,
       };
-    case SET_INIT:
-      return {
-        ...state,
-        statData: action.base
-      }
     case SET_GOTTEN:
       return {
         ...state,
@@ -360,11 +343,6 @@ export function rootReducer(state = initialState, action) {
       return {
         ...state,
         limit: action.limit
-      }
-    case SET_INIT_TODO:
-      return {
-        ...state,
-        toDoList: action.base
       }
     case SET_WEEK:
       return {

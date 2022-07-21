@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useTimeForTimer} from '../../../hooks/useTimeForTimer'
 import { createData, setNumberOfWeek, deleteTask, 
          updateDataDay, setLimit, setIsGotten, saveId, 
-         setName, saveCountClick, setInitData 
+         setName, saveCountClick 
         } from '../../../store/store';
 import { Button } from './Button/Button';
 import { addZero } from '../../../hooks/useTimeForTimer';
@@ -44,9 +44,6 @@ export function Timer() {
   const dispatch = useDispatch();
   const [minTimer] = useTimeForTimer();
   const crossed = document.querySelector('.crossed');
-  const persistedState = localStorage.getItem('stat') 
-                          ? JSON.parse(localStorage.getItem('stat'))
-                          : data
   let timeMin;
 
   //Меняем в массиве номер недели на число от 0 до 2
@@ -61,23 +58,13 @@ export function Timer() {
     localStorage.setItem('weeks', JSON.stringify(numberOfWeek))
   }, [numberOfWeek.length])
 
-  //Записываем в Redux данные из LS, если есть
-  // useEffect(() => {
-  //   if (data.length == 0) {
-  //     dispatch(setInitData(persistedState))
-  //   }     
-  // }, [data.length])
-
   function createDataOfStat(id) {
     if (data[id] == undefined) {
       dispatch(createData(id, currentDay, 0, 0, 0, 0, 0));
-      localStorage.setItem('stat', JSON.stringify(data))
     } else if (data[id].id !== week) {
       dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
-      localStorage.setItem('stat', JSON.stringify(data))
     } else if (data[id][currentDay] == undefined) {
       dispatch(updateDataDay(0, currentDay, 0, 0, 0, 0, 0));
-      localStorage.setItem('stat', JSON.stringify(data))
     }
   }
 
@@ -91,17 +78,14 @@ export function Timer() {
       } else if (numberOfWeek.length == 2) {
         if (data[0] == undefined) {
           dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
-          localStorage.setItem('stat', JSON.stringify(data))
         }
         createDataOfStat(1)
       } else if (numberOfWeek.length == 3) {
         if (data[0] == undefined) {
           dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
-          localStorage.setItem('stat', JSON.stringify(data))
         }
         if (data[1] == undefined) {
           dispatch(createData(1, currentDay, 0, 0, 0, 0, 0));
-          localStorage.setItem('stat', JSON.stringify(data))
         }
         createDataOfStat(2)
       } else {return}
@@ -130,12 +114,6 @@ export function Timer() {
     }
   }, [numOfTask])
 
-  //Сохраняем в хранилище
-  useEffect(() => {
-    localStorage.setItem('toDoList', JSON.stringify(toDoList));
-    localStorage.setItem('stat', JSON.stringify(data))
-  }, [toDoList.length, data.length])
-
   //Считаем количество остановок
   useEffect(() => {  
     let count = 0;
@@ -150,10 +128,7 @@ export function Timer() {
       timerPause = setInterval(() => {
         count = ++count;
         localStorage.setItem('count', count)
-      }, 1000)
-
-      localStorage.setItem('stat', JSON.stringify(data))
-    } 
+      }, 1000)    } 
   }, [isPausePressed, data.length])
   
   //Удаляем задачу из списка и сбрасываем название задачи НЕ РАБОТАЕТ
@@ -163,7 +138,6 @@ export function Timer() {
       setTimeout(() => { 
         try {
           dispatch(deleteTask(numOfTask));
-          //localStorage.setItem('toDoList', JSON.stringify(toDoList));
         } catch(err) {
           console.error(err);
         } 
@@ -193,8 +167,6 @@ export function Timer() {
       time: array,
     });
     dispatch(setIsGotten(true));
-    localStorage.setItem('toDoList', JSON.stringify(toDoList));
-    localStorage.setItem('stat', JSON.stringify(data))
   }
 
   //Сброс таймера до 25
@@ -253,7 +225,6 @@ export function Timer() {
         time: array,
       })
       dispatch(saveCountClick(click))
-      localStorage.setItem('toDoList', JSON.stringify(toDoList));
     } else if (array[quan - 1] == 35) {
       dispatch(setLimit(true))
     }
@@ -413,8 +384,7 @@ export function Timer() {
                           day: currentDay,
                           pause: JSON.parse(localStorage.count),
                         });
-                        localStorage.setItem('stat', JSON.stringify(data))
-                      }
+                                    }
                       setTimer(total);
                     }}
             />

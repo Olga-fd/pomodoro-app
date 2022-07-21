@@ -2,9 +2,9 @@ import React from 'react';
 import { MenuItemsList } from './MenuItemsList';
 import './menulistbtn.css';
 
-export function MenuListBtn({ref}) {
+export function MenuListBtn() {
   return (
-    <div className="dropdown" ref={ref}>
+    <div className="dropdown">
       <MenuItemsList/>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setName, setNumTask, setSelectedTitle } from "../../../store/store";
 import { Menu } from '../../Menu/Menu';
 import './task.css';
@@ -54,7 +54,6 @@ export function Task({task}) {
                 id: index, 
                 title: e.target.value, 
               });
-              localStorage.setItem('toDoList', JSON.stringify(toDoList));
               changeTitle(e);
               e.target.setAttribute('disabled', 'disabled');
             }

@@ -7,7 +7,7 @@ import { DarkBack } from "../TasksList/Task/DeleteTask/DarkBack/DarkBack";
 import { Gotten } from "../Notifications/Gotten/Gotten";
 import { NotFound } from "../Notifications/NotFound/NotFound" ;
 import { Limit } from "../Notifications/Limit/Limit";
-import { setIsFound, saveNumberOfWeek, setInitToDo } from "../../store/store";
+import { setIsFound, saveNumberOfWeek } from "../../store/store";
 import "./mainblock.css";
 
 export function getNumOfWeek() {
@@ -33,15 +33,9 @@ export function MainBlock() {
   const limit = useSelector(state => state.limit);
   const isModalOpened = useSelector(state => state.isModalOpened);
   const numberOfWeek = useSelector(state => state.numberOfWeek);
-  const week = useSelector(state => state.selectedWeek);
-  const currentDay = useSelector(state => state.currentDay);
-  const data = useSelector(state => state.statData);  
   const dispatch = useDispatch();
   const result = getNumOfWeek();
-  const persistedState = localStorage.getItem('toDoList') 
-                          ? JSON.parse(localStorage.getItem('toDoList'))
-                          : toDoList
-
+ 
   getWeeksForStat();  
   let date = new Date();
   let day = date.getDay();
@@ -53,24 +47,9 @@ export function MainBlock() {
       dispatch({
         type: 'GET_CURRENT_DAY',
         day: daysShortened[day],
-      });
-      localStorage.setItem('day', JSON.stringify(daysShortened[day])) 
-      
+      });      
     } else return
   }, [])
-
-  //Записываем в Redux список дел из LS, если есть
-  // useEffect(() => {
-  //   if (toDoList.length == 0 
-  //         && data !== undefined 
-  //         && data[week] !== undefined
-  //         && data[week][currentDay] !== undefined
-  //         && data[week][currentDay].time == 0
-  //       ) {
-  //     dispatch(setInitToDo(persistedState));
-  //   } else return
-  // }, [toDoList.length, data])
-  
   
   function handleChange(e) {
     setInputValue(e.currentTarget.value);

@@ -35,7 +35,6 @@ export function MenuItemsList() {
           quantity: toDoList[indexLS].quantity + 1, 
           time: array,
         })
-        localStorage.setItem('toDoList', JSON.stringify(toDoList));
       }}>
         <PlusIcon/>
         <span>Увеличить</span>
@@ -56,7 +55,6 @@ export function MenuItemsList() {
             quantity: toDoList[indexLS].quantity - 1, 
             time: array,
           });
-          localStorage.setItem('toDoList', JSON.stringify(toDoList));
         } else if (toDoList[indexLS].quantity == 1) {
           dispatch(updateStatusModal(true));
         }
