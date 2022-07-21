@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from "react";
 import { useSelector } from "react-redux";
 import './chart.css';
-//style={"display: block; box-sizing: border-box; height: 279.489px; width: 562.842px;"}
 
-export function Chart() {
+export function Chart({indexObj}) {
   const defaultArr = [5, 5, 5, 5, 5, 5, 5];
   const [heights, setHeights] = useState(defaultArr);
   const data = useSelector(state => state.statData);
@@ -23,15 +22,15 @@ export function Chart() {
   }
    
   useEffect(() => {
-    if (data[selectedWeek] !== undefined) {
+    if (data[indexObj] !== undefined) {
       let array = [];
       const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
       for (let i = 0; i < 7; i++) {
         let time;
-        if (data[selectedWeek][days[i]] == undefined) {
+        if (data[indexObj][days[i]] == undefined) {
           time = 0
         } else {
-          time = data[selectedWeek][days[i]].time;
+          time = data[indexObj][days[i]].time;
         }
         array.push(time)
       }
@@ -40,7 +39,7 @@ export function Chart() {
     } else {
       setHeights(defaultArr);
     }
-  }, [selectedWeek]);
+  }, [indexObj]);
   
   return (
     <>

@@ -12,6 +12,4 @@
   height: 100px;
   background-image: url('../../images/dark.jpg');
   background-color: var(--thunder);
-  /* transition: .3s; */
-  /* display: none; */
 }

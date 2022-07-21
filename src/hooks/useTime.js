@@ -7,7 +7,7 @@ export function useTime() {
  
   useEffect(() => {
     let hour, minutes;
-    const length = toDoList.map(item => item.time).reduce((sum, current) => sum + current, 0);
+    const length = toDoList.map(item => item.time.reduce((sum, current) => sum + current, 0)).reduce((sum, current) => sum + current, 0);
     if (length > 0) {
       hour = Math.floor(length / 60);
       minutes = length - hour * 60;

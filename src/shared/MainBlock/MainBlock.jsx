@@ -1,44 +1,148 @@
-import React, {useState, useEffect} from 'react';
-import { Timer } from './Timer/Timer';
-import { TasksList } from '../TasksList/TasksList';
-import { useTime } from '../../hooks/useTime';
-import { useDispatch, useSelector } from 'react-redux';
-import {DarkBack} from '../TasksList/Task/DeleteTask/DarkBack/DarkBack';
+import React, {useEffect, useState} from "react";
+import { Timer } from "./Timer/Timer";
+import { TasksList } from "../TasksList/TasksList";
+import { useTime } from "../../hooks/useTime";
+import { useDispatch, useSelector } from "react-redux";
+import { DarkBack } from "../TasksList/Task/DeleteTask/DarkBack/DarkBack";
+import { Gotten } from "../Notifications/Gotten/Gotten";
+import { NotFound } from "../Notifications/NotFound/NotFound" ;
+import { Limit } from "../Notifications/Limit/Limit";
+import { setIsFound, saveNumberOfWeek, setInitToDo } from "../../store/store";
+import "./mainblock.css";
 
-import './mainblock.css';
+export function getNumOfWeek() {
+  let date = new Date();
+  let day = date.getDay();
+  let firstJan = new Date(date.getFullYear(),0,1);
+  if (firstJan == 0) firstJan = 7;
+  if (day == 0) day = 7;
+  let daysForFirstWeek = 7 - (7 - firstJan.getDay() + 1);
+  let daysForLastWeek = 7 - day;
+  let numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
+  let result = (daysForFirstWeek + numberOfDays + daysForLastWeek + 1) / 7;
+  return result
+}
 
 export function MainBlock() {
   const [inputValue, setInputValue] = useState('');
   const [hours] = useTime();
   const toDoList = useSelector(state => state.toDoList);
-  const statusModal = useSelector(state => state.isModalOpened);
   const lightTheme = useSelector(state => state.lightTheme); 
-  const day = useSelector(state => state.selectedDay); 
-  const data = useSelector(state => state.statData); 
-  const [isModalOpened, setIsModalOpened] = useState(statusModal);
+  const isGotten = useSelector(state => state.isGotten);
+  const isFound = useSelector(state => state.isFound);
+  const limit = useSelector(state => state.limit);
+  const isModalOpened = useSelector(state => state.isModalOpened);
+  const numberOfWeek = useSelector(state => state.numberOfWeek);
+  const week = useSelector(state => state.selectedWeek);
+  const currentDay = useSelector(state => state.currentDay);
+  const data = useSelector(state => state.statData);  
   const dispatch = useDispatch();
- 
-  useEffect(() => {
-    setIsModalOpened(statusModal);
-  }, [statusModal]);
+  const result = getNumOfWeek();
+  const persistedState = localStorage.getItem('toDoList') 
+                          ? JSON.parse(localStorage.getItem('toDoList'))
+                          : toDoList
 
+  getWeeksForStat();  
+  let date = new Date();
+  let day = date.getDay();
+  
+  //Сохраняем в хранилище  текущий день
+  useEffect(() => {
+    const daysShortened = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    if (numberOfWeek.length !== undefined) {
+      dispatch({
+        type: 'GET_CURRENT_DAY',
+        day: daysShortened[day],
+      });
+      localStorage.setItem('day', JSON.stringify(daysShortened[day])) 
+      
+    } else return
+  }, [])
+
+  //Записываем в Redux список дел из LS, если есть
+  // useEffect(() => {
+  //   if (toDoList.length == 0 
+  //         && data !== undefined 
+  //         && data[week] !== undefined
+  //         && data[week][currentDay] !== undefined
+  //         && data[week][currentDay].time == 0
+  //       ) {
+  //     dispatch(setInitToDo(persistedState));
+  //   } else return
+  // }, [toDoList.length, data])
+  
+  
   function handleChange(e) {
-    setInputValue(e.currentTarget.value)
+    setInputValue(e.currentTarget.value);
+  }
+
+  function setClassModal() {
+    document.querySelector('#modal_root').classList.add('modal')
   }
   
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch({
-      type: 'CREATE_TASK', 
-      id: toDoList.length + 1, 
-      title: inputValue, 
-      quantity: 1, 
-      time: 25
-    });
-    //localStorage.setItem('toDoList', JSON.stringify(toDoList));
+     
+    if (inputValue == '') {
+      dispatch(setIsFound(true))
+    } else {
+      if (toDoList.length !== 0 && toDoList[toDoList.length - 1].id != toDoList.length) {
+        dispatch({
+          type: 'CREATE_TASK', 
+          id: toDoList[toDoList.length - 1].id + 1, 
+          title: inputValue, 
+          quantity: 1, 
+          time: [25]
+        });
+      } else {
+        dispatch({
+          type: 'CREATE_TASK', 
+          id: toDoList.length + 1, 
+          title: inputValue, 
+          quantity: 1, 
+          time: [25]
+        });
+      }
+    }
     setInputValue('');
   }
 
+//Определяем какая по счету неделя должна быть в массиве
+  function getWeeksForStat() {
+    if (numberOfWeek.length == 0) {
+      dispatch(saveNumberOfWeek(result));
+    } else if (numberOfWeek.length == 1) {
+      if (numberOfWeek[0] !== result && numberOfWeek[0] == (result - 1)) {
+        dispatch(saveNumberOfWeek(result))
+      } else if (numberOfWeek[0] !== result && numberOfWeek[0] == (result - 2)) {
+        dispatch(saveNumberOfWeek(result - 1));
+        dispatch(saveNumberOfWeek(result))
+      } else if (numberOfWeek[0] < (result - 2)) { 
+        numberOfWeek.splice(0,1);
+        dispatch(saveNumberOfWeek(result))
+      } else {return}
+
+    } else if (numberOfWeek.length == 2) {
+      if (numberOfWeek[1] !== result && numberOfWeek[1] == (result - 1)) {
+        dispatch(saveNumberOfWeek(result))
+      } else if (numberOfWeek[1] !== result && numberOfWeek[1] == (result - 2)) {
+        numberOfWeek.splice(0,1);
+        dispatch(saveNumberOfWeek(result - 1));
+        dispatch(saveNumberOfWeek(result))
+      } else if (numberOfWeek[1] < (result - 2)) { 
+        numberOfWeek.splice(0,2);
+        dispatch(saveNumberOfWeek(result))
+      }
+      
+    } else { return }
+  }
+
+  useEffect(() => {
+    if (numberOfWeek.includes(result) == false) {
+      localStorage.setItem('timeTomato', 0)
+    }
+  }, [numberOfWeek, result])
+    
   return (
     <div className="mainblock">
       <div>
@@ -60,7 +164,7 @@ export function MainBlock() {
           <li>Продолжайте работать «помидор» за «помидором», пока задача не будут выполнена. Каждые 4 «помидора» делайте длинный перерыв (15-30 минут).</li>
         </ul>
         <form onSubmit={handleSubmit}>
-          <input className="input-add" 
+          <input className={`input-add ${isFound ? "red-outline" : ""}`}
                  value={inputValue} type="text" 
                  onChange={handleChange} 
                  placeholder='Название задачи'
@@ -75,28 +179,24 @@ export function MainBlock() {
       <Timer/>
 
       {isModalOpened && (
-        document.querySelector('#modal_root').classList.add('modal'),
+        setClassModal(),
         <DarkBack/>
+      )} 
+
+      {isGotten && (
+        setClassModal(), 
+        <Gotten/> 
+      )}
+
+      {isFound && (
+        setClassModal(), 
+        <NotFound/> 
+      )}
+
+      {limit && (
+        setClassModal(), 
+        <Limit/> 
       )}
     </div>
   );
 }
-
-
-{/* <div className={`mainblock ${lightTheme 
-  ? ''
-  : 'dark'
-}`
-}>
-<div>
-<p className={`paragraph ${lightTheme 
-      ? ''
-      : 'text--dark'
-    }`
-}
->Ура! Теперь можно начать работать:</p>
-<ul className={`listInstr ${lightTheme 
-      ? ''
-      : 'text--dark'
-    }`
-}> */}

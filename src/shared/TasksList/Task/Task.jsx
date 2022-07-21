@@ -1,53 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setName, setNumTask, setSelectedTitle } from "../../../store/store";
 import { Menu } from '../../Menu/Menu';
-// import { setNumberOfWeek} from '../../../store/store';
 import './task.css';
 
 export function Task({task}) {
   const [taskTitle, setTaskTitle] = useState(`${task.title}`);
-  const [isTitled, setTitled] = useState(false);
   const dispatch = useDispatch();
-  const data = useSelector(state => state.statData);
-  const toDoList = useSelector(state => state.toDoList);
-  const week = useSelector(state => state.selectedWeek);
-  const currentDay = useSelector(state => state.selectedDay);
-  const numberOfWeek = useSelector(state => state.numberOfWeek);
-
-  function getTomatoes(e) {
-    if (data.length !== 0) {
-      if (data[week][currentDay]) {
-    dispatch({
-      type: 'GET_TOMATO',
-      id: week,
-      day: currentDay,
-      tomato: toDoList[e.target.dataset.id - 1].quantity
-    })
-      }  
+ 
+  function changeTitle(e) {
+    if (e.target.tagName == 'INPUT') {
+      dispatch(setNumTask(parseInt(e.target.dataset.id)));
+      dispatch(setSelectedTitle(e.target.value))
+    } else {
+      dispatch(setSelectedTitle(e.target.children[0].value))
+      dispatch(setNumTask(parseInt(e.target.parentElement.dataset.id)));
     }
+    dispatch(setName(true));
   }
-  
+
+  function setWidthFocus(e) {
+    document.activeElement.style.width = ((e.target.value.length + 1) * 6) + 'px'
+  }  
+
+  function setWidthActive(e) {
+    document.activeElement.style.width = ((e.target.value.length + 1) * 8 - (e.target.value.length + 1)) + 'px';
+  }
+
   return (
     <tr className={`taskItem ${task.quantity == 0
-      ? 'crossed' 
-      : ''
-  }`}  data-id={`${task.id}`}>
+                                ? 'crossed' 
+                                : ''
+                              }
+                  `}  
+        data-id={`${task.id}`}
+    >
       <td> <span className="quantity">{task.quantity}</span></td>
-      <td className="taskItem_title" onClick={(e) => {
-        document.querySelector('.timer-header span:first-child').textContent = e.target.closest('.taskItem_input').value;
-        document.querySelector('.timer-main span:last-child').textContent = e.target.closest('.taskItem_input').value;
-        document.querySelector('.timer-main span:first-child').textContent = `Задача ${e.target.dataset.id} - `
-        setTitled(true);
-        dispatch({type: 'SET_NAME', position: true});
-        localStorage.setItem('numOfTask', JSON.stringify(e.target.dataset.id))
-        //getTomatoes(e);
-      }}>
-        <input className="taskItem_input"
+      <td className="taskItem_title" onClick={(e) => {changeTitle(e)}}>
+        <input className="taskItem_input" 
+          maxLength="41"
           data-id={`${task.id}`} 
           value={taskTitle} 
+          onFocus={(e) => {setWidthFocus(e)}}
           onChange={(e) => {
               setTaskTitle(e.target.value);
-              //e.target.style.width = e.target.offsetWidth + 'px'
+              setWidthActive(e)
             }
           } 
           onBlur={(e) => {
@@ -57,6 +54,8 @@ export function Task({task}) {
                 id: index, 
                 title: e.target.value, 
               });
+              localStorage.setItem('toDoList', JSON.stringify(toDoList));
+              changeTitle(e);
               e.target.setAttribute('disabled', 'disabled');
             }
           } disabled />  
@@ -65,6 +64,5 @@ export function Task({task}) {
         <Menu/>
       </td>
     </tr>
-  )}
-
-  //contenteditable="true"
+  )
+}

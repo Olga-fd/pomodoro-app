@@ -4,6 +4,7 @@ import '../../main.css';
 import { useSelector } from "react-redux";
 import {Statistics} from '../Statistics/Statistics';
 import {Theme} from '../Theme/Theme';
+import { Link } from "react-router-dom";
 
 
 export function Header() {
@@ -19,7 +20,7 @@ export function Header() {
 
   return (
     <header className="header">
-      <div className="flex-block">
+      <Link className="flex-block" to="/">        
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
           <g clip-path="url(#clip0_3505_242)">
             <path d="M38.9151 23.2834C38.9151 33.7058 30.466 40 20.0437 40C9.62098 40 1.17188 31.5509 1.17188 21.1282C1.17188 10.7059 9.88496 4.2981 20.3073 4.2981C30.73 4.2981 38.9151 12.8607 38.9151 23.2834Z" fill="#DC3E22"/>
@@ -33,9 +34,9 @@ export function Header() {
           </defs>
         </svg>
         <span className="logo">pomodoro_box</span>
-      </div>
-        <Theme/>
-        <Statistics/>
+      </Link>
+      <Theme/>
+      <Statistics/>
     </header>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { PlusIcon, MinusIcon, EditIcon, DeleteIcon} from '../../Icons/Icons';
 import './menuitemslist.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,13 +19,23 @@ export function MenuItemsList() {
   return (
     <ul className="menuItemsList">
       <li className="menuItem" onClick={(e) => {
+        let array;
         getIndex(e);
+        if (Array.isArray(toDoList[indexLS].time)) {
+          array = toDoList[indexLS].time;
+          array.push(25);
+        } else {
+          array = [toDoList[indexLS].time];
+          array.push(25);
+        }
+        
         dispatch({
           type: 'UPDATE_TASK', 
           id: index, 
           quantity: toDoList[indexLS].quantity + 1, 
-          time: toDoList[indexLS].time + 25,
+          time: array,
         })
+        localStorage.setItem('toDoList', JSON.stringify(toDoList));
       }}>
         <PlusIcon/>
         <span>Увеличить</span>
@@ -33,15 +43,22 @@ export function MenuItemsList() {
       
       <li className="menuItem" onClick={(e) => {
         getIndex(e);
+        let array;
+        if (Array.isArray(toDoList[indexLS].time)) {
+          array = toDoList[indexLS].time;
+          array.pop();
+        } else { return }
+
         if (toDoList[indexLS].quantity > 1) {
           dispatch({
             type: 'UPDATE_TASK', 
             id: index, 
             quantity: toDoList[indexLS].quantity - 1, 
-            time: toDoList[indexLS].time - 25,
-          })
-        } else {
-          dispatch(updateStatusModal(false));
+            time: array,
+          });
+          localStorage.setItem('toDoList', JSON.stringify(toDoList));
+        } else if (toDoList[indexLS].quantity == 1) {
+          dispatch(updateStatusModal(true));
         }
       }}>
         <MinusIcon/>
@@ -68,6 +85,3 @@ export function MenuItemsList() {
     </ul>
   );
 }
-
-
- //row.firstChild.nextSibling.contentEditable = true;

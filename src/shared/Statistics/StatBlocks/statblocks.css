@@ -74,17 +74,12 @@
   width: 100%;
   height: 420px;
   position: relative;
-  background-image: url('./backchart.svg');
+  background-image: url('../../../images/backchart.svg');
 }
 
 .dark .statMain__chart_header {
-  background-image: url('./backchart-dark.svg');
+  background-image: url('../../../images/backchart-dark.svg');
 }
-
-/* .statMain__chart_header div{
-  width: 100%;
-  height: 100%;
-} */
 
 .statMain__chart_footer {
   width: 100%;

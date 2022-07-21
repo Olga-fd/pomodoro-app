@@ -35,7 +35,6 @@
   height: 50px;
   margin-left: 25px;
   cursor: pointer;
-  /* background-image: url('./plus.svg'); */
 }
 
 .countdown { 
@@ -44,10 +43,6 @@
   padding-left: 10%;
 }
 
-/* .countdown svg {
-  margin-left: 25px;
-} */
-
 .btn-plus svg:hover circle {
   fill: var(--sycamore);
   cursor: pointer;
@@ -55,7 +50,7 @@
 
 .btn-plus:disabled svg:hover circle {
   fill: var(--greyC4);
-  cursor: default;
+  cursor: not-allowed;
 }
 
 .timer-main {

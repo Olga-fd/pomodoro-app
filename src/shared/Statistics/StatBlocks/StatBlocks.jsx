@@ -8,7 +8,7 @@ import { CirclesIcon } from "../../Icons/CirclesIcon";
 import { StopIcon } from "../../Icons/StopIcon";
 import { WatchIcon } from "../../Icons/WatchIcon";
 import { useDispatch, useSelector } from "react-redux";
-import {NotFound} from '../../NotFound/NotFound';
+import { setSelectedDay } from "../../../store/store";
 
 export function StatBlocks() {
   const dispatch = useDispatch();
@@ -21,73 +21,53 @@ export function StatBlocks() {
     'Пятница',
     'Суббота',
   ];
-  
-  const [isDayOfWeek, setIsDayOfWeek] = useState('');
-  const [week, setWeek] = useState(0);
+  const [fullNameOfDay, setFullNameOfDay] = useState('');
   const [coloredFooter, setColoredFooter] = useState(false);
-  const dayOfWeek = useSelector(state => state.selectedDay);
-  const [selectedDay, setSelectedDay] = useState('');
- 
-  // const store = useStore();
-  // const data = store.getState().data; 
-  const selectedWeek = useSelector(state => state.selectedWeek);
-  const dataForStat = useSelector(state => state.statData);
-  const selected = document.querySelectorAll('.select-hide');
+  const selectedDay = useSelector(state => state.selectedDay);
+  const [indexObj, setIndexObj] = useState(0);
+  const week = useSelector(state => state.selectedWeek);
+  const data = useSelector(state => state.statData);
+  const numberOfWeek = useSelector(state => state.numberOfWeek);
+  let id;
 
-  let data;
-  if (dataForStat.length == 0) {
-    let currentDay = new Date().getDay();
-    setIsDayOfWeek(days[currentDay]);
-
-   
-    data = JSON.parse(localStorage.stat);
-    dispatch({
-      type: 'SET_INIT',
-      base: data
-    });  
-      setTimeout(() => {localStorage.clear()}, 3000)
-    } else {
-      data = dataForStat;
-   }
-
+  //Нахождение индекса объекта в массиве по id
   useEffect(() => {
-    setWeek(selectedWeek);
-    setSelectedDay(dayOfWeek)
-  }, [selected, dayOfWeek])
-
-  // useEffect(() => {
-    
-  //   setIsDayOfWeek(dayOfWeek)
-  // }, [isDayOfWeek])
-
-  useEffect(() => {
-    const names = document.querySelectorAll('.statMain__chart_footer span');
-    if (week == 0) {
-      names.forEach(name => name.innerText == dayOfWeek
-        ? name.classList.add('text-punch')
-        : name
-      )
-    } else {
-      const text = document.querySelector('.text-punch');
-      if (text) text.classList.remove('text-punch');
+    if (data.length !== 0) {
+      if (numberOfWeek.length == 2 && week == 0) {
+        id = data.findIndex(obj => obj.id == 1);
+      } else if (numberOfWeek.length == 2 && week == 1) {
+        id = data.findIndex(obj => obj.id == 0);
+      } else if (numberOfWeek.length == 2 && week == 2) {
+        id = data.findIndex(obj => obj.id == undefined);
+      } else if (numberOfWeek.length == 3 && week == 0) {
+        id = data.findIndex(obj => obj.id == 2);
+      } else if (numberOfWeek.length == 3 && week == 1) {
+        id = data.findIndex(obj => obj.id == 1);
+      } else if (numberOfWeek.length == 3 && week == 2) {
+        id = data.findIndex(obj => obj.id == 0);
+      } else {
+        id = data.findIndex(obj => obj.id == week);
+      }
+      setIndexObj(id)
     }
-  }, [week]);
+  }, [data, numberOfWeek.length, week])
 
+  //Окрашивание футера
   useEffect(() => {
-    if (data[week][dayOfWeek] && data[week][dayOfWeek].time !== (undefined || 0)) {
+    if (data[indexObj] && data[indexObj][selectedDay] && data[indexObj][selectedDay].time !== (undefined || 0)) {
       setColoredFooter(true)
     } else {
       setColoredFooter(false)
     }
-  }, [dayOfWeek])
-  
+  }, [data, selectedDay, indexObj])
 
+  //Полное название дня недели
   function getDayOfWeek(e) {
     const date = e.target.dataset.id;
     if (date == 7) {
-      setIsDayOfWeek(days[0]);
+      setFullNameOfDay(days[0]);
     } else {
-      setIsDayOfWeek(days[date]);
+      setFullNameOfDay(days[date]);
     }
     dispatch({
       type: 'GET_DAY',
@@ -139,14 +119,17 @@ export function StatBlocks() {
           return (`${hour} час`)
       }
       }
-   }
+    }
   }
 
   function getTimeShort(length) {
     let hour, minutes;
     if (length > 0) {
-      hour = Math.floor(length / 60);
-      minutes = length - hour * 60;
+      if (length < 60) {
+        return (`${length}c`)
+      }
+      hour = Math.floor(length / 3600);
+      minutes = Math.floor((length - hour * 3600) / 60);
       if (minutes > 0) {
           if (hour >= 5) {
           return (`${hour}ч ${minutes}м`)
@@ -184,36 +167,41 @@ export function StatBlocks() {
       
       <div className="statMain">
         <div className="statMain__day">
-          <h2>{isDayOfWeek}</h2>
-          {data[week] !== undefined && data[week][selectedDay] !== undefined
+          <h2>
+            {data[indexObj] !== undefined && data[indexObj][selectedDay] !== undefined
+              ? fullNameOfDay
+              : ''}
+          </h2>
+          {data[indexObj] !== undefined && data[indexObj][selectedDay] !== undefined
             ? <p>Вы&nbsp;работали над задачами в&nbsp;течение&nbsp;
                 <span className="statMain__day_span">
-                  {getTime(data[week][selectedDay].time)}
+                  {getTime(data[indexObj][selectedDay].time)}
                 </span>
               </p>
             : <p>Нет данных</p>                                 
           }
         </div>
         <div className="statMain__pomodoro">
-          {data[week] !== undefined && data[week][selectedDay] !== (0 || undefined)
+          {data[indexObj] !== undefined && data[indexObj][selectedDay] !== (0 || undefined)
             ? <div className="statMain__pomodoro_wrap">
                 <div className="statMain__pomodoro_header">
                   <img className="statMain__pomodoro_img" src={tomato} alt='Помидор' />
-                  <span className="statMain__pomodoro_span">х {data[week][selectedDay].tomato}</span>
+                  <span className="statMain__pomodoro_span">х {data[indexObj][selectedDay].tomato}</span>
                 </div>
-                <div className="statMain__pomodoro_footer">{conjugateTomato(data[week][selectedDay].tomato)}</div>
+                <div className="statMain__pomodoro_footer">{conjugateTomato(data[indexObj][selectedDay].tomato)}</div>
               </div>
             : <img className="tomato" src={pomodoro} alt='Помидор' />
           }
         </div>
         <div className="statMain__chart">
           <div className="statMain__chart_header">
-            <Chart/>
+            <Chart indexObj={indexObj}/>
           </div>
             
           <div className="statMain__chart_footer" onClick={(e) => {
             getDayOfWeek(e); 
             changeColor(e);
+            dispatch(setSelectedDay(e.target.innerText))            
           }}>
             {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map((day, index) =>
               <span key={index} data-id={index + 1}>{day}</span> 
@@ -227,7 +215,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Фокус</p>
             <span className="statFooter__span">
-              {data[week] && data[week][selectedDay] ? `${data[week][selectedDay].focus}%` : '0%'}
+              {data[indexObj] && data[indexObj][selectedDay] ? `${data[indexObj][selectedDay].focus}%` : '0%'}
             </span>
           </div>
           
@@ -238,7 +226,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Время на паузе</p>
             <span className="statFooter__span">
-              {data[week] && data[week][selectedDay] ? `${getTimeShort(data[week][selectedDay].pause)}` : '0м'}
+              {data[indexObj] && data[indexObj][selectedDay] ? `${getTimeShort(data[indexObj][selectedDay].pause)}` : '0м'}
             </span>
           </div>
        
@@ -249,7 +237,7 @@ export function StatBlocks() {
           <div className="wrap">
             <p className="statFooter__title">Остановки</p>
             <span className="statFooter__span">
-              {data[week] && data[week][selectedDay] ? data[week][selectedDay].stops : 0}
+              {data[indexObj] && data[indexObj][selectedDay] ? data[indexObj][selectedDay].stops : 0}
             </span>
           </div>
           

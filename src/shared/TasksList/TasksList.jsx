@@ -1,6 +1,5 @@
 import React from "react";
-// import { tasksContext } from "../../context/tasksContext";
-import {Task} from './Task/Task'
+import {Task} from './Task/Task';
 import './taskslist.css';
 
 export function TasksList({toDoList}) {
@@ -9,6 +8,7 @@ export function TasksList({toDoList}) {
       task={task}
     />
   )
+  
   return (
     <table className="tasksList">
       <tbody>

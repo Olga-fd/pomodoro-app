@@ -9,16 +9,6 @@
   background-color: var(--woodyBrown);
 }
 
-/* .menuItemsList::after {
-  content: '';
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-bottom: 7px solid var(--silver) ;
-} */
-
 .menuItem {
   padding: 7px 0 7px 15.5px;
   display: flex;
@@ -43,9 +33,3 @@
 .menuItem > svg + span {
   margin-left: 9.5px;
 }
-
-/* @media all and (min-width: 1540px) {
-  .menuItemsList {
-    padding: 2px 20px;
-  }
-} */

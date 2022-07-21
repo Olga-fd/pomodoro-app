@@ -8,7 +8,7 @@ export function Theme() {
   const [isLightTheme, setLightTheme] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isLightTheme) {
+    if (isLightTheme == true) {
       dispatch({
         type: 'SET_THEME',
         theme: true
