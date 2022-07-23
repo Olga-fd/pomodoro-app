@@ -15,22 +15,22 @@ const initialState = {
   limit: false,
   toDoList: [],
   statData: [
-    // {id: 0,
-    //   'Пн': {
-    //     time: 40,
-    //     tomato: 1,
-    //     focus: 62,
-    //     pause: 10,
-    //     stops: 1,
-    //   },
-    //   'Вт': {
-    //     time: 10,
-    //     tomato: 1,
-    //     focus: 10,
-    //     pause: 10,
-    //     stops: 1,
-    //   },
-    // }
+    {id: 0,
+      'Пн': {
+        time: 40,
+        tomato: 1,
+        focus: 62,
+        pause: 10,
+        stops: 1,
+      },
+      'Вт': {
+        time: 10,
+        tomato: 1,
+        focus: 10,
+        pause: 10,
+        stops: 1,
+      },
+    }
   ]  
 }
 

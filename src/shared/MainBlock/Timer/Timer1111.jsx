@@ -1,15 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useTimeForTimer} from '../../../hooks/useTimeForTimer'
-import { deleteTask, setLimit, setIsGotten, setName, saveCountClick } from '../../../store/store';
+import { createData, setNumberOfWeek, deleteTask, 
+         updateDataDay, setLimit, setIsGotten, saveId, 
+         setName, saveCountClick 
+        } from '../../../store/store';
 import { Button } from './Button/Button';
 import { addZero } from '../../../hooks/useTimeForTimer';
-import { soundClick } from '../../../utilites/utilitiesForTimer';
+import sound from './sound.mp3'
 import './timer.css';
 
 let timer, timerBreak, timerPause,
   unit = 0,
   click = 0;
+
+//Функция добавления звукового сигнала
+function soundClick() {
+  const audio = new Audio(); // Создаём новый элемент Audio
+  audio.src = sound; // Указываем путь к звуку "клика"
+  audio.autoplay = true; // Автоматически запускаем
+}
 
 export function Timer() {
   const display = document.querySelector('.display');
@@ -22,9 +32,11 @@ export function Timer() {
   const week = useSelector(state => state.selectedWeek);
   const currentDay = useSelector(state => state.currentDay);
   const lightTheme = useSelector(state => state.lightTheme);
+  //const numberOfWeek = useSelector(state => state.numberOfWeek);
   const toDoList = useSelector(state => state.toDoList);
   const data = useSelector(state => state.statData);  
   const isTitled = useSelector(state => state.isTitled); 
+  // const isGotten = useSelector(state => state.isGotten); 
   const numOfTask = useSelector(state => state.numOfTask);
   const indexTask = useSelector(state => state.indexTask);
   const selectedTitle = useSelector(state => state.selectedTitle);
@@ -33,6 +45,68 @@ export function Timer() {
   const [minTimer] = useTimeForTimer();
   const crossed = document.querySelector('.crossed');
   let timeMin;
+
+  // //Меняем в массиве номер недели на число от 0 до 2
+  // useEffect(() => {
+  //   if (numberOfWeek.length == 1) {
+  //     dispatch(setNumberOfWeek(0))
+  //   } else if (numberOfWeek.length == 2) {
+  //     dispatch(setNumberOfWeek(1))
+  //   } else if (numberOfWeek.length == 3) {
+  //     dispatch(setNumberOfWeek(2))
+  //   }
+  //   localStorage.setItem('weeks', JSON.stringify(numberOfWeek))
+  // }, [numberOfWeek.length])
+
+  // function createDataOfStat(id) {
+  //   if (data[id] == undefined) {
+  //     dispatch(createData(id, currentDay, 0, 0, 0, 0, 0));
+  //   } else if (data[id].id !== week) {
+  //     dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
+  //   } else if (data[id][currentDay] == undefined) {
+  //     dispatch(updateDataDay(0, currentDay, 0, 0, 0, 0, 0));
+  //   }
+  // }
+
+  // //Создаем объект с данными текущего дня
+  // useEffect(() => {
+  //   if (toDoList.length !== 0) {
+  //     if (numberOfWeek.length == 0) {
+  //       createDataOfStat(0)
+  //     } else if (numberOfWeek.length == 1) {
+  //       createDataOfStat(0)
+  //     } else if (numberOfWeek.length == 2) {
+  //       if (data[0] == undefined) {
+  //         dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
+  //       }
+  //       createDataOfStat(1)
+  //     } else if (numberOfWeek.length == 3) {
+  //       if (data[0] == undefined) {
+  //         dispatch(createData(0, currentDay, 0, 0, 0, 0, 0));
+  //       }
+  //       if (data[1] == undefined) {
+  //         dispatch(createData(1, currentDay, 0, 0, 0, 0, 0));
+  //       }
+  //       createDataOfStat(2)
+  //     }
+  //   }
+  // }, [toDoList.length, numberOfWeek.length]);
+
+  // useEffect(() => {
+  //   if (isGotten == true && data.length !== 0) {
+  //     let timing = data[week][currentDay].time;
+  //     let pause = data[week][currentDay].pause;
+  //     if (timing > 0)
+  //       dispatch({
+  //         type: 'SET_FOCUS',
+  //         id: week,
+  //         day: currentDay,
+  //         focus: Math.floor(timing / (timing + pause / 60) * 100), 
+  //       });
+  //   }
+  // }, [isGotten])
+
+  
 
   //Считаем количество остановок
   useEffect(() => {  
@@ -89,26 +163,6 @@ export function Timer() {
     dispatch(setIsGotten(true));
   }
 
-  //При нажатии на ПРОДОЛЖИТЬ
-  function continueCountDown() {
-    let total = display.innerText.split(":");
-    total = parseInt(total[0] * 60) + parseInt(total[1]);
-    {!isBreak && (
-      setIsStartPressed(true)
-    )}
-    setIsPausePressed(false);
-    clearInterval(timerPause);
-    if (localStorage.count) {
-      dispatch({
-        type: 'ADD_PAUSE',
-        id: week,
-        day: currentDay,
-        pause: JSON.parse(localStorage.count),
-      });
-                  }
-    setTimer(total);
-  }
-
   //Сброс таймера до 25
   function reset() {
     let time = toDoList[indexTask].time;
@@ -116,7 +170,7 @@ export function Timer() {
     if (time.length > 0) {
       display.textContent = `${time[time.length - 1]}:00`;
     } else {
-      display.textContent = '05:00'
+      display.textContent = '25:00'
     }
   }
 
@@ -136,7 +190,7 @@ export function Timer() {
     
     if (data.length !== 0) {
       total = array[quan - 1] * 60
-    } else {total = 300}
+    } else {total = 1500}
 
     localStorage.setItem('timeTomato', array[quan - 1])
 
@@ -170,7 +224,7 @@ export function Timer() {
     }
   }
 
-  //Тотальный сброс таймера
+  //Тотальная сброс таймера
   function stopTimer() {
     setIsStopPressed(true);
     setIsStartPressed(false);
@@ -183,9 +237,9 @@ export function Timer() {
 
   function setTimerBreak() {
     if (unit  === 4) {
-      timeMin = 120;
+      timeMin = 900;
     } else {
-       timeMin = 60;
+       timeMin = 300;
     }
     const display = document.querySelector('.display');
     timerBreak = setInterval(() => {
@@ -199,10 +253,10 @@ export function Timer() {
           display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
       --timeMin;
-      }, 50)  
+      }, 10)  
   }
 
-  function setTimer(timeMinute = 300) {
+  function setTimer(timeMinute = 1500) {
     const display = document.querySelector('.display');
      
     timer = setInterval(() => {
@@ -253,7 +307,7 @@ export function Timer() {
           `}>
             {isStopPressed
               ? `${minTimer}`
-              : isBreak ? "01:00" : "05:00"
+              : isBreak ? "05:00" : "25:00"
             }
           </p>
           <button className="btn-plus" onClick={() => {addMinute()}} disabled={isTitled ? false : true}>
@@ -267,8 +321,8 @@ export function Timer() {
           <span>Задача {isTitled ? numOfTask : ''} - </span>
           <span>{isTitled ? selectedTitle : 'Выберите задачу'}</span>
         </p>
-
         <div className="timer-btns">
+
           {!isStartPressed && !isPausePressed && !isBreak && (
             <Button className="btn--green"
                     title='Старт'
@@ -309,7 +363,24 @@ export function Timer() {
           {isPausePressed && !isStartPressed && (
             <Button className="btn--green"
                     title='Продолжить'
-                    onClick={() => {continueCountDown()}}
+                    onClick={() => {
+                      let total = display.innerText.split(":");
+                      total = parseInt(total[0] * 60) + parseInt(total[1]);
+                      {!isBreak && (
+                        setIsStartPressed(true)
+                      )}
+                      setIsPausePressed(false);
+                      clearInterval(timerPause);
+                      if (localStorage.count) {
+                        dispatch({
+                          type: 'ADD_PAUSE',
+                          id: week,
+                          day: currentDay,
+                          pause: JSON.parse(localStorage.count),
+                        });
+                                    }
+                      setTimer(total);
+                    }}
             />
           )}
 

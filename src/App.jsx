@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Header } from './shared/Header/Header';
 import { Layout } from './shared/Layout/Layout';
 import { MainBlock } from './shared/MainBlock/MainBlock';
@@ -24,7 +24,8 @@ export function App() {
           <Routes>
             <Route path="/" element={<MainBlock/>} />
             <Route path="/statistics" element={<StatBlocks/>} />
-            <Route path="/*" element={ <Navigate to="/error" />} />
+            <Route path="/dist/*" element={ <Navigate to="/" />} />
+            {/* <Route path="/*" element={ <Navigate to="/error" />} /> */}
           </Routes>
         </Layout>
       </BrowserRouter>

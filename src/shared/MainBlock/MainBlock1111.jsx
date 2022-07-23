@@ -70,7 +70,7 @@ export function MainBlock() {
           id: toDoList[toDoList.length - 1].id + 1, 
           title: inputValue, 
           quantity: 1, 
-          time: [5]
+          time: [25]
         });
       } else {
         dispatch({
@@ -78,7 +78,7 @@ export function MainBlock() {
           id: toDoList.length + 1, 
           title: inputValue, 
           quantity: 1, 
-          time: [5]
+          time: [25]
         });
       }
     }

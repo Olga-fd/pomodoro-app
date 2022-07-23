@@ -1,0 +1,48 @@
+.statMain__pomodoro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 296px;
+  min-height: 179px;
+  grid-area: pomodoro;
+}
+
+.tomato {
+  width: 115px;
+  height: 115px;
+}
+
+.statMain__pomodoro_wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.statMain__pomodoro_header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 51px);
+}
+
+.statMain__pomodoro_footer {
+  width: 100%;
+  height: 51px;
+  padding: 8px;
+  text-align: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 24px;
+  background-color: var(--punch);
+}
+
+.statMain__pomodoro_img {
+  width: 81px;
+  height: 81px;
+}
+
+.statMain__pomodoro_span {
+  padding-left: 17px;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--grey99);
+}
