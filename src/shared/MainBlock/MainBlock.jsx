@@ -7,21 +7,9 @@ import { DarkBack } from "../TasksList/Task/DeleteTask/DarkBack/DarkBack";
 import { Gotten } from "../Notifications/Gotten/Gotten";
 import { NotFound } from "../Notifications/NotFound/NotFound" ;
 import { Limit } from "../Notifications/Limit/Limit";
-import { setIsFound, saveNumberOfWeek } from "../../store/store";
+import { setIsFound, saveNumberOfWeek} from "../../store/store";
+import { getNumOfWeek } from "../../utilites/utilitiesForTimer";
 import "./mainblock.css";
-
-export function getNumOfWeek() {
-  let date = new Date();
-  let day = date.getDay();
-  let firstJan = new Date(date.getFullYear(),0,1);
-  if (firstJan == 0) firstJan = 7;
-  if (day == 0) day = 7;
-  let daysForFirstWeek = 7 - (7 - firstJan.getDay() + 1);
-  let daysForLastWeek = 7 - day;
-  let numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
-  let result = (daysForFirstWeek + numberOfDays + daysForLastWeek + 1) / 7;
-  return result
-}
 
 export function MainBlock() {
   const [inputValue, setInputValue] = useState('');
@@ -40,17 +28,17 @@ export function MainBlock() {
   let date = new Date();
   let day = date.getDay();
   
-  //Сохраняем в хранилище  текущий день
+  //Сохраняем в хранилище текущий день
   useEffect(() => {
     const daysShortened = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     if (numberOfWeek.length !== undefined) {
       dispatch({
         type: 'GET_CURRENT_DAY',
         day: daysShortened[day],
-      });      
+      });
     } else return
   }, [numberOfWeek.length])
-  
+
   function handleChange(e) {
     setInputValue(e.currentTarget.value);
   }
@@ -112,12 +100,6 @@ export function MainBlock() {
       }
     } 
   }
-
-  useEffect(() => {
-    if (numberOfWeek.includes(result) == false) {
-      localStorage.setItem('timeTomato', 0)
-    }
-  }, [numberOfWeek, result])
     
   return (
     <div className="mainblock">

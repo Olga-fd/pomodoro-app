@@ -9,30 +9,34 @@ const initialState = {
   currentDay: '',
   selectedWeek: 0,
   countClick: 0,
-  numberOfWeek: [28],
+  numberOfWeek: [30],
   numOfTask: 1,
   indexTask: 0,
   limit: false,
   toDoList: [],
   statData: [
-    {id: 0,
-      'Пн': {
-        time: 40,
-        tomato: 1,
-        focus: 62,
-        pause: 10,
-        stops: 1,
-      },
-      'Вт': {
-        time: 10,
-        tomato: 1,
-        focus: 10,
-        pause: 10,
-        stops: 1,
-      },
-    }
+    // {id: 0,
+    //   'Пн': {
+    //     time: 40,
+    //     tomato: 1,
+    //     focus: 62,
+    //     pause: 10,
+    //     stops: 1,
+    //   },
+    //   'Вт': {
+    //     time: 10,
+    //     tomato: 1,
+    //     focus: 10,
+    //     pause: 10,
+    //     stops: 1,
+    //   },
+    // }
   ]  
 }
+
+export const persistedState = localStorage.getItem('pomodoro') 
+                       ? JSON.parse(localStorage.getItem('pomodoro'))
+                       : initialState
 
 const ADD_STOP = 'ADD_STOP';
 const ADD_TIME = 'ADD_TIME';
@@ -165,7 +169,7 @@ export const updateDataDay = (id, day, time, tomato, focus, pause, stops) => ({
   }
 )
 
-export function rootReducer(state = initialState, action) {
+function _rootReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_STOP:
       return {
@@ -414,4 +418,10 @@ export function rootReducer(state = initialState, action) {
     default:
       return state; 
   };
+}
+
+export function rootReducer(state = initialState, action) {
+  const newState = _rootReducer(state, action);
+  localStorage.setItem('pomodoro', JSON.stringify(newState));
+  return newState
 }

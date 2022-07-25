@@ -12,8 +12,6 @@ export function MenuItemsList() {
   function getIndex(e) {
     index = parseInt(e.target.closest('tr').dataset.id);
     indexLS = toDoList.findIndex(key => key.id === index); 
-    localStorage.setItem('index', index);
-    localStorage.setItem('indexLS', indexLS)
   }
 
   return (

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useTimeForTimer} from '../../../hooks/useTimeForTimer'
 import { deleteTask, setLimit, setIsGotten, setName, saveCountClick } from '../../../store/store';
 import { Button } from './Button/Button';
-import { addZero } from '../../../hooks/useTimeForTimer';
-import { soundClick } from '../../../utilites/utilitiesForTimer';
+import { addZero } from '../../../utilites/utilitiesForTimer';
+import { soundClick, getUnfinishedTime } from '../../../utilites/utilitiesForTimer';
 import './timer.css';
 
 let timer, timerBreak, timerPause,
@@ -47,8 +47,9 @@ export function Timer() {
       
       timerPause = setInterval(() => {
         count = ++count;
-        localStorage.setItem('count', count)
-      }, 1000)    } 
+        sessionStorage.setItem('count', count)
+      }, 1000)
+    } 
   }, [isPausePressed, data.length])
   
   //Удаляем задачу из списка и сбрасываем название задачи НЕ РАБОТАЕТ
@@ -70,14 +71,14 @@ export function Timer() {
     let array = toDoList[indexTask].time;
     array.pop();
     ++unit;
-    localStorage.setItem('unit', unit)
+    sessionStorage.setItem('unit', unit)
    
     dispatch({
       type: 'GET_TOMATO',
       id: week,
       day: currentDay,
       tomato: data[week][currentDay].tomato + 1, 
-      time: data[week][currentDay].time + JSON.parse(localStorage.timeTomato)
+      time: data[week][currentDay].time + JSON.parse(sessionStorage.timeTomato)
     });
 
     dispatch({
@@ -89,6 +90,28 @@ export function Timer() {
     dispatch(setIsGotten(true));
   }
 
+  //При нажатии на СДЕЛАНО
+  function doIsDone() {
+    stopTimer();
+    dispatch(deleteTask(numOfTask));
+    dispatch(setName(false));
+    if (sessionStorage.count) {
+      dispatch({
+        type: 'ADD_PAUSE',
+        id: week,
+        day: currentDay,
+        pause: data[week][currentDay].pause + JSON.parse(sessionStorage.count),
+      });
+    }
+    dispatch({
+      type: 'GET_TOMATO',
+      id: week,
+      day: currentDay,
+      tomato: data[week][currentDay].tomato + 1, 
+      time: data[week][currentDay].time + Math.floor(JSON.parse(sessionStorage.unfinished_time / 60))
+    });
+  }
+
   //При нажатии на ПРОДОЛЖИТЬ
   function continueCountDown() {
     let total = display.innerText.split(":");
@@ -98,14 +121,14 @@ export function Timer() {
     )}
     setIsPausePressed(false);
     clearInterval(timerPause);
-    if (localStorage.count) {
+    if (sessionStorage.count) {
       dispatch({
         type: 'ADD_PAUSE',
         id: week,
         day: currentDay,
-        pause: JSON.parse(localStorage.count),
+        pause: data[week][currentDay].pause + JSON.parse(sessionStorage.count),
       });
-                  }
+    }
     setTimer(total);
   }
 
@@ -137,9 +160,7 @@ export function Timer() {
     if (data.length !== 0) {
       total = array[quan - 1] * 60
     } else {total = 300}
-
-    localStorage.setItem('timeTomato', array[quan - 1])
-
+    sessionStorage.setItem('timeTomato', array[quan - 1])
     setTimer(total); 
     setIsStartPressed(true);
 
@@ -177,6 +198,7 @@ export function Timer() {
     setIsPausePressed(false);
     setBreak(false);
     clearInterval(timerBreak);
+    clearInterval(timerPause);
     clearInterval(timer);
     reset();
   }
@@ -236,9 +258,9 @@ export function Timer() {
                           : lightTheme 
                             ? ""
                             : "header--dark"
-                          }
-      `}>
-        <span>{isTitled ? selectedTitle : 'Выберите задачу'}</span>
+                    }`}
+      >
+        <span>{isTitled ? selectedTitle : isBreak ? 'ИДЕТ ПЕРЕРЫВ' : 'Выберите задачу'}</span>
         <span>{pomodoro}</span>
       </p>
       <div className={`timer-center ${lightTheme ? "" : "timer--dark"}`}>
@@ -253,7 +275,9 @@ export function Timer() {
           `}>
             {isStopPressed
               ? `${minTimer}`
-              : isBreak ? "01:00" : "05:00"
+              : isBreak 
+                ? "01:00" 
+                : "05:00"
             }
           </p>
           <button className="btn-plus" onClick={() => {addMinute()}} disabled={isTitled ? false : true}>
@@ -265,7 +289,7 @@ export function Timer() {
         </div>
         <p className="timer-main">
           <span>Задача {isTitled ? numOfTask : ''} - </span>
-          <span>{isTitled ? selectedTitle : 'Выберите задачу'}</span>
+          <span>{isTitled ? selectedTitle : isBreak ? 'ИДЕТ ПЕРЕРЫВ' : 'Выберите задачу'}</span>
         </p>
 
         <div className="timer-btns">
@@ -284,6 +308,7 @@ export function Timer() {
                       setIsPausePressed(true);
                       setIsStartPressed(false);
                       clearInterval(timer);
+                      getUnfinishedTime(display)
                     }}
             />
           )}
@@ -323,7 +348,7 @@ export function Timer() {
           {isPausePressed && !isBreak && (
             <Button className="btn--red"
                     title='Сделано'
-                    onClick={() => {stopTimer()}}
+                    onClick={() => {doIsDone()}}
             />
           )}
         </div>

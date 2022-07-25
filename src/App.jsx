@@ -8,9 +8,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { createStore } from 'redux';
 import {Provider} from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { rootReducer } from './store/store';
+import { rootReducer, persistedState } from './store/store';
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(rootReducer, persistedState, composeWithDevTools());
 
 export function App() {
   return (

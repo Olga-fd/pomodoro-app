@@ -1,14 +1,6 @@
 import React, {useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-//Добавляем нули в таймере при одиночном "формате"
-export function addZero (num) {
-  if (num <= 9) {
-    return '0' + num;
-  } else {
-    return num;
-  }
-};
+import { addZero } from "../utilites/utilitiesForTimer";
 
 export function useTimeForTimer() {
   const [minTimer, setMinTimer] = useState('05:00');

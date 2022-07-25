@@ -20,6 +20,7 @@ export function StatFooter({data, indexObj, selectedDay}) {
     }
   }, [data, selectedDay, indexObj])
 
+
   return (
     <div className="statFooter">
       <div className={`statFooter__focus ${coloredFooter ? '' : 'non-active'}`}>
@@ -29,10 +30,9 @@ export function StatFooter({data, indexObj, selectedDay}) {
             {data[indexObj] && data[indexObj][selectedDay] ? `${data[indexObj][selectedDay].focus}%` : '0%'}
           </span>
         </div>
-        
         <CirclesIcon/>
       </div>
-      
+ 
       <div className={`statFooter__time ${coloredFooter ? '' : 'non-active'}`}>
         <div className="wrap">
           <p className="statFooter__title">Время на паузе</p>

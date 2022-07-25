@@ -12,6 +12,7 @@ export function TasksList({toDoList}) {
   const data = useSelector(state => state.statData);  
   const numOfTask = useSelector(state => state.numOfTask);
   const numberOfWeek = useSelector(state => state.numberOfWeek);
+  
   const taskName = toDoList.map(task => <Task 
       key={task.id}
       task={task}
@@ -27,7 +28,6 @@ export function TasksList({toDoList}) {
     } else if (numberOfWeek.length == 3) {
       dispatch(setNumberOfWeek(2))
     }
-    localStorage.setItem('weeks', JSON.stringify(numberOfWeek))
   }, [numberOfWeek.length])
 
   function createDataOfStat(id) {
