@@ -1,0 +1,35 @@
+.menuItemsList {
+  width: 165px;
+  padding-left: 0;
+  padding-top: 4px;
+  padding-bottom: 7px;
+}
+
+.dark .menuItemsList {
+  background-color: var(--woodyBrown);
+}
+
+.menuItem {
+  padding: 7px 0 7px 15.5px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  font-weight: 300;
+}
+
+.menuItem:first-child {
+  margin-top: 13px;
+}
+
+.menuItem:hover {
+  background-color: var(--greyF4);
+  cursor: pointer;
+}
+
+.dark .menuItem:hover {
+  background-color: var(--cocoaBrown);
+}
+
+.menuItem > svg + span {
+  margin-left: 9.5px;
+}

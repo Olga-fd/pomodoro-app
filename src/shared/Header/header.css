@@ -1,0 +1,30 @@
+.logo {
+  padding-left: .6rem;
+  color: var(--punch);
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.header {
+  height: 70px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+@media all and (min-width: 1024px) {
+  .header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media all and (max-width: 600px) {
+
+  .logo {
+    display: none;;
+  }
+}
+

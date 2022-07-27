@@ -1,0 +1,18 @@
+.statMain__day { 
+  width: 296px;
+  min-height: 260px;
+  grid-area: day;
+  padding: 25px;
+}
+
+.statMain__day h2 {
+  margin-bottom: 14px;
+}
+
+.statMain__day p {
+  line-height: 28px;
+}
+
+.statMain__day_span {
+  color: var(--punch);
+}

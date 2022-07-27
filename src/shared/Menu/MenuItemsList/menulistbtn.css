@@ -1,0 +1,17 @@
+.dropdown {
+  position: absolute;
+  left: -69px;
+  top: 10px;
+  z-index: 1;
+  width: 165px;
+  height: 153px;
+  line-height: 17px;
+  background-color: var(--white);
+  background-image: url('../../../../src/images/Rectangle71.png');
+  background-size: auto;
+}
+
+.dark .dropdown {
+  background-color: var(--woodyBrown);
+  background-image: none
+}
