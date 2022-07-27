@@ -21,10 +21,10 @@ export function MenuItemsList() {
         getIndex(e);
         if (Array.isArray(toDoList[indexLS].time)) {
           array = toDoList[indexLS].time;
-          array.push(5);
+          array.push(25);
         } else {
           array = [toDoList[indexLS].time];
-          array.push(5);
+          array.push(25);
         }
         
         dispatch({

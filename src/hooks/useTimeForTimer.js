@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { addZero } from "../utilites/utilitiesForTimer";
 
 export function useTimeForTimer() {
-  const [minTimer, setMinTimer] = useState('05:00');
+  const [minTimer, setMinTimer] = useState('25:00');
   const toDoList = useSelector(state => state.toDoList); 
   const numOfTask = useSelector(state => state.numOfTask); 
   const indexTask = useSelector(state => state.indexTask);
@@ -31,7 +31,7 @@ export function useTimeForTimer() {
             }
           }
         } else {
-          setMinTimer('05:00')
+          setMinTimer('25:00')
         } 
       }
     }

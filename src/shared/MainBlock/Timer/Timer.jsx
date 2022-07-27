@@ -139,7 +139,7 @@ export function Timer() {
     if (time.length > 0) {
       display.textContent = `${time[time.length - 1]}:00`;
     } else {
-      display.textContent = '05:00'
+      display.textContent = '25:00'
     }
   }
 
@@ -221,10 +221,10 @@ export function Timer() {
           display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
       --timeMin;
-      }, 50)  
+      }, 1000)  
   }
 
-  function setTimer(timeMinute = 300) {
+  function setTimer(timeMinute = 1500) {
     const display = document.querySelector('.display');
      
     timer = setInterval(() => {
@@ -244,7 +244,7 @@ export function Timer() {
         display.innerHTML = `${addZero(Math.trunc(minutes))}:${addZero(seconds)}`;
       }
       --timeMinute;
-    }, 10) 
+    }, 1000) 
   } 
 
   return (
@@ -276,8 +276,8 @@ export function Timer() {
             {isStopPressed
               ? `${minTimer}`
               : isBreak 
-                ? "01:00" 
-                : "05:00"
+                ? "05:00" 
+                : "25:00"
             }
           </p>
           <button className="btn-plus" onClick={() => {addMinute()}} disabled={isTitled ? false : true}>
